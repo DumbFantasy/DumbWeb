@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUE TANTO LE SABES AL ESPIKOS?</title>
+    <title>Dumb Web - El Universo del Espikos</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --primary: #8b5cf6;
-            --primary-hover: #7c3aed;
-            --accent: #ec4899;
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --primary: #f97316; /* Naranja vibrante */
+            --accent: #ec4899;  /* Magenta */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --correct: #22c55e;
@@ -32,39 +31,219 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
         }
 
+        /* Fondo animado de gradiente naranja y magenta */
+        .bg-gradient-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(249, 115, 22, 0.15), rgba(236, 72, 153, 0.15));
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pantalla de Carga / Bienvenida */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .splash-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .splash-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.3s;
+        }
+
+        .loader-bar {
+            width: 220px;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 3px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Contenedor principal de la app */
         .container {
             width: 100%;
             max-width: 650px;
             background-color: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .container.visible {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             padding: 25px;
             text-align: center;
+            position: relative;
         }
 
         .header h1 {
             font-size: 1.5rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
+        /* Menú de selección (Hub principal) */
+        .hub-menu {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .hub-menu h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .hub-menu p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #1e293b, #2b3b55);
+            color: var(--text-main);
+            border: 2px solid var(--primary);
+            padding: 18px 20px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn:hover {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .menu-btn span {
+            font-size: 1.3rem;
+        }
+
+        .coming-soon-btn {
+            background: #1a2234;
+            color: var(--text-muted);
+            border: 2px dashed #334155;
+            padding: 18px 20px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            cursor: not-allowed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.6;
+        }
+
+        /* Sección del Quiz */
         .quiz-body {
             padding: 30px;
+        }
+
+        .back-hub-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        .back-hub-btn:hover {
+            color: var(--primary);
         }
 
         .progress-bar {
             width: 100%;
             height: 8px;
-            background-color: #334155;
+            background-color: #1e293b;
             border-radius: 4px;
             margin-bottom: 25px;
             overflow: hidden;
@@ -72,7 +251,7 @@
 
         .progress {
             height: 100%;
-            background-color: var(--accent);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             width: 0%;
             transition: width 0.4s ease;
         }
@@ -106,9 +285,9 @@
         }
 
         .option-btn {
-            background-color: #334155;
+            background-color: #1a2234;
             color: var(--text-main);
-            border: 2px solid transparent;
+            border: 2px solid #2a374d;
             padding: 14px 18px;
             border-radius: 10px;
             text-align: left;
@@ -118,14 +297,14 @@
         }
 
         .option-btn:hover:not(:disabled) {
-            background-color: #475569;
+            background-color: #26334d;
             border-color: var(--primary);
             transform: translateY(-2px);
         }
 
         .option-btn.selected {
             border-color: var(--accent);
-            background-color: #475569;
+            background-color: #26334d;
         }
 
         .option-btn.correct {
@@ -151,11 +330,12 @@
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, transform 0.2s;
         }
 
         .btn-next:hover, .btn-submit-multi:hover {
             opacity: 0.9;
+            transform: scale(1.01);
         }
 
         .hidden {
@@ -164,7 +344,7 @@
 
         .results-container {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px 10px;
         }
 
         .results-container h2 {
@@ -190,11 +370,45 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1>Que tanto le sabes al Espikos?</h1>
+    <div class="bg-gradient-effect"></div>
+
+    <!-- Pantalla de Bienvenida y Carga Animada -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <h1 class="splash-title">¡Bienvenido a la Dumb Web!</h1>
+            <div class="loader-bar">
+                <div class="loader-progress" id="loader-progress"></div>
+            </div>
+            <div class="loader-text" id="loader-text">Cargando el universo...</div>
         </div>
-        <div class="quiz-body" id="quiz-body">
+    </div>
+
+    <!-- Contenedor Principal de la Web -->
+    <div class="container" id="main-container">
+        <div class="header">
+            <h1 id="header-title">Dumb Web Hub</h1>
+        </div>
+
+        <!-- VISTA 1: Menú de Botones / Hub -->
+        <div class="hub-menu" id="hub-menu">
+            <h2>Selecciona una actividad</h2>
+            <p>Elige a dónde quieres entrar hoy en el universo del Espikos.</p>
+            <div class="menu-buttons">
+                <button class="menu-btn" onclick="playSound('click'); startQuiz();">
+                    🎯 Quiz: ¿Qué tanto le sabes al Espikos? <span>➔</span>
+                </button>
+                <div class="coming-soon-btn">
+                    🎮 Próximo Minijuego... <span>🔒</span>
+                </div>
+                <div class="coming-soon-btn">
+                    📚 Lore y Personajes (Pronto) <span>🔒</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA 2: El Quiz -->
+        <div class="quiz-body hidden" id="quiz-section">
+            <button class="back-hub-btn" onclick="playSound('click'); returnToHub();">⬅ Volver al menú</button>
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
@@ -207,116 +421,100 @@
     </div>
 
     <script>
-        const questions = [
-            {
-                question: "Como se llama la piedra que le da poder y nacimiento al espikos siendo la cosa más poderosa de su universo?",
-                options: ["Piedra Filosofal", "CRACK", "Andromedita", "Piedra Espiko"],
-                correct: 2 // Andromedita
-            },
-            {
-                question: "Cierto o Falso: Es verdad que Elías Varnet en su lapso de años con la investigación de la piedra pudo obtener temporalmente una especie de inmortalidad?",
-                options: ["Cierto", "Falso"],
-                correct: 0 // Cierto
-            },
-            {
-                question: "Que le cayó a Varnet durante su investigación para alcanzar el poder absoluto?",
-                options: ["Una manzana", "Un fragmento de poder celestial", "Un antiguo grimorio que corrompió su mente", "Popo de pajaro", "El 20"],
-                correct: 4 // El 20
-            },
-            {
-                question: "¿En donde sale \"El hijo de Hernández\" de Cuarteto de nos?",
-                options: ["En la de Skriker", "Espikos", "YO NO SOY EL ENGENDRO DE VERNET (esta es la correcta xdxd)", "Spike", "Luminiscente", "Cuando aparece el abuelo del eskrikoso", "Spike 3", "En la batalla final de la saga", "Spike 2: Umbranova", "del KILLSANS xdxdxd", "Pues cuando sale Varnet no?"],
-                correct: [2, 8], // Tanto la respuesta 3 (índice 2) como la 9 (índice 8) son correctas
-                multiple: true
-            },
-            {
-                question: "Cuáles son los papás de Spike?",
-                options: ["Elias Varnet", "Richar y Mary Parker", "María Antonieta y su hermanita", "¿¡SPIKE TIENE PAPÁS?!", "Una piedrita mágica como no", "Sonic y Shadow"],
-                correct: [3, 4], // Tanto la 4 (índice 3) como la 5 (índice 4) son correctas
-                multiple: true
-            },
-            {
-                question: "¿Que significa este logo?",
-                options: ["Aaah simón es el Distrito Federal", "Defecando Focas", "Dedos en el Fundillo xdxdxd", "Diablos Fuertotes", "Dumb Fantasy", "Amazing Fantasy", "pus es nomas una D y una F que quiere?"],
-                correct: 4 // Dumb Fantasy
-            },
-            {
-                question: "Es cierto que Spike tiene miedo a ser rechazado, aunque sea un ser poderoso?",
-                options: ["Si", "Nah que, ES EL ESPIKOS"],
-                correct: 0 // Si
-            },
-            {
-                question: "Ya te leíste Luminiscente? (Donde sale el Skriker pues ah por cierto estas dos son buenas)",
-                options: ["¡SI!", "No...."],
-                correct: [0, 1], // Las dos son buenas/correctas
-                multiple: true
-            },
-            {
-                question: "SOY EL VERNTET...",
-                options: ["TENGO QUE ATRAPARLOS", "NAIN NAIN NAIN NAIN NAIN NAIN", "OYE MI VOZ", "Y ESTAS SON MIS ISLAS"],
-                correct: 3 // Y ESTAS SON MIS ISLAS
-            },
-            {
-                question: "Selecciona las canciones mas perronas de la playlist del espikos (puedes checarlas y escucharlas si eso ayuda)",
-                options: [
-                    "GOSSIP, My Way Of Life, Bad y Creep",
-                    "Dont Stop Me Now, Time to Pretend, Cambiante y I Hear a Simphony",
-                    "Holiday, Mr Blue Sky y Im Still Standing",
-                    "Intruso, Ride the Lignthing y Lo malo de ser Bueno",
-                    "TODAS ALV APARTE DE SER MUCHAS MEJOR PQ ESTAN BIEN PERRONAS"
-                ],
-                correct: 4 // TODAS ALV...
-            },
-            {
-                question: "Que significan las siglas S.P.K?",
-                options: ["Señal de Paso Kilometrico", "Sentido de Partido Kiwi", "Servicio de Prevencion de Kaos", "Sujeto de Potencial Kinésico"],
-                correct: 3 // Sujeto de Potencial Kinésico
-            },
-            {
-                question: "Es cierto que quieres ver mas del Universo del espikos",
-                options: ["Si", "No"],
-                correct: 0 // Si
-            },
-            {
-                question: "Cuando es el cumpleaños del Espikos?",
-                options: ["30 de febrero", "27 de enero", "26 de mayo", "21 de junio"],
-                correct: 3 // 21 de junio
-            },
-            {
-                question: "Que sigue después de la frase \"Alibaba ahí está el fenómeno...\"",
-                options: ["Conlleva una gran responsabilidad", "Yo soy inevitable", "Skibidi dop dop dop yes yes skibidi skibidi diip diiip", "Aquel creado de la naturaleza"],
-                correct: 3 // Aquel creado de la naturaleza
-            },
-            {
-                question: "Cuál es el nuevo personaje que se presentó en Spike 2 pero existe antes de que se descubriera a Spike?",
-                options: ["Elias Varnet", "El contador", "Lucifer (no el de hazbin si no el de este universo aah ya te espoilie AAAAAH xdxd)", "Skriker"],
-                correct: 3 // Skriker
-            },
-            {
-                question: "Que le pasara a Varnet en Spike 3? (Spoiler)",
-                options: ["Se volverá amigo del espikos", "Hara la de \"mentira soy bueno\" y sera un pibe normal", "Sera un pejelagarto", "Morirá debido a su sentencia a muerte por todos sus actos ¿Como morirá? eh pues en una silla eléctrica pero no muere... del todo"],
-                correct: 3 // Morirá debido a su sentencia...
-            },
-            {
-                question: "Spike regresara para Avengers Doomsday?",
-                options: ["Si", "No"],
-                correct: 0 // Si
-            },
-            {
-                question: "A quien hace referencia el espikos cuando die \"VENGO DE BARRIO PU-&quot;...?",
-                options: ["Glicht", "A un amigo suyo (no tiene JAJS, bueno a lo mejor y Skriker)", "Ps al hazbin"],
-                correct: 2 // Ps al hazbin (tercera opción)
-            },
-            {
-                question: "Como se llama la ciudad donde se encuentra el espikos?",
-                options: ["Ciudad Gotica", "Nueva York", "Ciudad Seltsamer", "Metropolis"],
-                correct: 2 // Ciudad Seltsamer
-            },
-            {
-                question: "Debería agregar a Ado a la playlist y al universo del espikos?",
-                options: ["Si", "No"],
-                correct: 0 // Si
+        // Sistema de Sonidos Web (Web Audio API - Sin archivos externos)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(450, now);
+                osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.setValueAtTime(500, now + 0.08);
+                osc.frequency.setValueAtTime(750, now + 0.16);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'incorrect') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.linearRampToValueAtTime(120, now + 0.15);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            }
+        }
+
+        // Animación de Carga Inicial
+        window.addEventListener('load', () => {
+            let progress = 0;
+            const progressEl = document.getElementById('loader-progress');
+            const textEl = document.getElementById('loader-text');
+            const splashEl = document.getElementById('splash-screen');
+            const mainContainer = document.getElementById('main-container');
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 8;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    textEl.innerText = "¡Listo!";
+                    playSound('correct');
+
+                    setTimeout(() => {
+                        splashEl.style.opacity = '0';
+                        splashEl.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            splashEl.style.display = 'none';
+                            mainContainer.classList.add('visible');
+                        }, 600);
+                    }, 400);
+                }
+                progressEl.style.width = progress + '%';
+            }, 120);
+        });
+
+        // Base de Datos de Preguntas
+        const questions = [
+            { question: "Como se llama la piedra que le da poder y nacimiento al espikos siendo la cosa más poderosa de su universo?", options: ["Piedra Filosofal", "CRACK", "Andromedita", "Piedra Espiko"], correct: 2 },
+            { question: "Cierto o Falso: Es verdad que Elías Varnet en su lapso de años con la investigación de la piedra pudo obtener temporalmente una especie de inmortalidad?", options: ["Cierto", "Falso"], correct: 0 },
+            { question: "Que le cayó a Varnet durante su investigación para alcanzar el poder absoluto?", options: ["Una manzana", "Un fragmento de poder celestial", "Un antiguo grimorio que corrompió su mente", "Popo de pajaro", "El 20"], correct: 4 },
+            { question: "¿En donde sale \"El hijo de Hernández\" de Cuarteto de nos?", options: ["En la de Skriker", "Espikos", "YO NO SOY EL ENGENDRO DE VERNET (esta es la correcta xdxd)", "Spike", "Luminiscente", "Cuando aparece el abuelo del eskrikoso", "Spike 3", "En la batalla final de la saga", "Spike 2: Umbranova", "del KILLSANS xdxdxd", "Pues cuando sale Varnet no?"], correct: [2, 8], multiple: true },
+            { question: "Cuáles son los papás de Spike?", options: ["Elias Varnet", "Richar y Mary Parker", "María Antonieta y su hermanita", "¿¡SPIKE TIENE PAPÁS?!", "Una piedrita mágica como no", "Sonic y Shadow"], correct: [3, 4], multiple: true },
+            { question: "¿Que significa este logo?", options: ["Aaah simón es el Distrito Federal", "Defecando Focas", "Dedos en el Fundillo xdxdxd", "Diablos Fuertotes", "Dumb Fantasy", "Amazing Fantasy", "pus es nomas una D y una F que quiere?"], correct: 4 },
+            { question: "Es cierto que Spike tiene miedo a ser rechazado, aunque sea un ser poderoso?", options: ["Si", "Nah que, ES EL ESPIKOS"], correct: 0 },
+            { question: "Ya te leíste Luminiscente? (Donde sale el Skriker pues ah por cierto estas dos son buenas)", options: ["¡SI!", "No...."], correct: [0, 1], multiple: true },
+            { question: "SOY EL VERNTET...", options: ["TENGO QUE ATRAPARLOS", "NAIN NAIN NAIN NAIN NAIN NAIN", "OYE MI VOZ", "Y ESTAS SON MIS ISLAS"], correct: 3 },
+            { question: "Selecciona las canciones mas perronas de la playlist del espikos (puedes checarlas y escucharlas si eso ayuda)", options: ["GOSSIP, My Way Of Life, Bad y Creep", "Dont Stop Me Now, Time to Pretend, Cambiante y I Hear a Simphony", "Holiday, Mr Blue Sky y Im Still Standing", "Intruso, Ride the Lignthing y Lo malo de ser Bueno", "TODAS ALV APARTE DE SER MUCHAS MEJOR PQ ESTAN BIEN PERRONAS"], correct: 4 },
+            { question: "Que significan las siglas S.P.K?", options: ["Señal de Paso Kilometrico", "Sentido de Partido Kiwi", "Servicio de Prevencion de Kaos", "Sujeto de Potencial Kinésico"], correct: 3 },
+            { question: "Es cierto que quieres ver mas del Universo del espikos", options: ["Si", "No"], correct: 0 },
+            { question: "Cuando es el cumpleaños del Espikos?", options: ["30 de febrero", "27 de enero", "26 de mayo", "21 de junio"], correct: 3 },
+            { question: "Que sigue después de la frase \"Alibaba ahí está el fenómeno...\"", options: ["Conlleva una gran responsabilidad", "Yo soy inevitable", "Skibidi dop dop dop yes yes skibidi skibidi diip diiip", "Aquel creado de la naturaleza"], correct: 3 },
+            { question: "Cuál es el nuevo personaje que se presentó en Spike 2 pero existe antes de que se descubriera a Spike?", options: ["Elias Varnet", "El contador", "Lucifer (no el de hazbin si no el de este universo aah ya te espoilie AAAAAH xdxd)", "Skriker"], correct: 3 },
+            { question: "Que le pasara a Varnet en Spike 3? (Spoiler)", options: ["Se volverá amigo del espikos", "Hara la de \"mentira soy bueno\" y sera un pibe normal", "Sera un pejelagarto", "Morirá debido a su sentencia a muerte por todos sus actos ¿Como morirá? eh pues en una silla eléctrica pero no muere... del todo"], correct: 3 },
+            { question: "Spike regresara para Avengers Doomsday?", options: ["Si", "No"], correct: 0 },
+            { question: "A quien hace referencia el espikos cuando die \"VENGO DE BARRIO PU-&quot;...?", options: ["Glicht", "A un amigo suyo (no tiene JAJS, bueno a lo mejor y Skriker)", "Ps al hazbin"], correct: 2 },
+            { question: "Como se llama la ciudad donde se encuentra el espikos?", options: ["Ciudad Gotica", "Nueva York", "Ciudad Seltsamer", "Metropolis"], correct: 2 },
+            { question: "Debería agregar a Ado a la playlist y al universo del espikos?", options: ["Si", "No"], correct: 0 }
         ];
 
         let currentQuestion = 0;
@@ -324,13 +522,30 @@
         let selectedAnswers = [];
         let answered = false;
 
+        const hubMenuEl = document.getElementById('hub-menu');
+        const quizSectionEl = document.getElementById('quiz-section');
+        const headerTitleEl = document.getElementById('header-title');
         const questionNumberEl = document.getElementById('question-number');
         const questionTextEl = document.getElementById('question-text');
         const optionsListEl = document.getElementById('options-list');
         const progressEl = document.getElementById('progress');
         const actionBtn = document.getElementById('action-btn');
         const multiHintEl = document.getElementById('multi-hint');
-        const quizBodyEl = document.getElementById('quiz-body');
+
+        function startQuiz() {
+            hubMenuEl.classList.add('hidden');
+            quizSectionEl.classList.remove('hidden');
+            headerTitleEl.innerText = "Quiz del Espikos";
+            currentQuestion = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function returnToHub() {
+            quizSectionEl.classList.add('hidden');
+            hubMenuEl.classList.remove('hidden');
+            headerTitleEl.innerText = "Dumb Web Hub";
+        }
 
         function loadQuestion() {
             answered = false;
@@ -356,7 +571,10 @@
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = option;
-                btn.onclick = () => selectOption(index, btn, q.multiple);
+                btn.onclick = () => {
+                    playSound('click');
+                    selectOption(index, btn, q.multiple);
+                };
                 optionsListEl.appendChild(btn);
             });
         }
@@ -374,16 +592,17 @@
                     btn.classList.add('selected');
                 }
             } else {
-                // Selección única: responder de inmediato
                 answered = true;
                 const q = questions[currentQuestion];
                 const buttons = optionsListEl.children;
 
                 if (index === q.correct) {
                     btn.classList.add('correct');
+                    playSound('correct');
                     score++;
                 } else {
                     btn.classList.add('incorrect');
+                    playSound('incorrect');
                     buttons[q.correct].classList.add('correct');
                 }
 
@@ -400,6 +619,7 @@
 
         function handleActionBtn() {
             if (answered) return;
+            playSound('click');
             const q = questions[currentQuestion];
             if (selectedAnswers.length === 0) {
                 alert('Por favor selecciona al menos una opción.');
@@ -410,14 +630,15 @@
             const buttons = optionsListEl.children;
             const correctArr = Array.isArray(q.correct) ? q.correct : [q.correct];
 
-            // Comprobar si seleccionó exactamente las correctas
             const isCorrect = selectedAnswers.length === correctArr.length && 
                               selectedAnswers.every(val => correctArr.includes(val));
 
             if (isCorrect) {
                 score++;
+                playSound('correct');
                 selectedAnswers.forEach(idx => buttons[idx].classList.add('correct'));
             } else {
+                playSound('incorrect');
                 selectedAnswers.forEach(idx => {
                     if (correctArr.includes(idx)) {
                         buttons[idx].classList.add('correct');
@@ -435,6 +656,7 @@
         }
 
         function nextQuestion() {
+            playSound('click');
             currentQuestion++;
             if (currentQuestion < questions.length) {
                 actionBtn.onclick = handleActionBtn;
@@ -455,17 +677,15 @@
                 feedback = "¡Te falta leer más sobre el Espikos y sus aventuras! Échale un ojo al Lore. 📚";
             }
 
-            quizBodyEl.innerHTML = `
+            quizSectionEl.innerHTML = `
                 <div class="results-container">
                     <h2>¡Quiz Completado!</h2>
                     <div class="score-badge">${score} / ${questions.length}</div>
                     <p>${feedback}</p>
-                    <button class="btn-next" onclick="location.reload()">Volver a jugar</button>
+                    <button class="btn-next" onclick="playSound('click'); returnToHub()">Volver al menú principal</button>
                 </div>
             `;
         }
-
-        loadQuestion();
     </script>
 </body>
 </html>
