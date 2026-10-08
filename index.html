@@ -123,7 +123,7 @@
         /* Contenedor principal de la app */
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 750px;
             background-color: var(--card-bg);
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
@@ -218,6 +218,112 @@
             opacity: 0.6;
         }
 
+        /* Biblioteca / Selector de Novelas */
+        .novel-hub {
+            padding: 30px;
+        }
+
+        .novel-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .novel-card {
+            background: #1a2234;
+            border: 2px solid #2a374d;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .novel-card:hover {
+            border-color: var(--primary);
+            background: #232f46;
+            transform: translateY(-2px);
+        }
+
+        .novel-info h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .novel-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Visor de Lector de Novela */
+        .reader-body {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .reader-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .chapter-selector {
+            width: 100%;
+            background: #1a2234;
+            color: var(--text-main);
+            border: 2px solid #2a374d;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .chapter-content {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            margin-bottom: 25px;
+        }
+
+        .reader-nav-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .reader-nav-btns button {
+            flex: 1;
+            padding: 12px;
+            background: #1e293b;
+            color: white;
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .reader-nav-btns button:hover:not(:disabled) {
+            background: var(--primary);
+        }
+
+        .reader-nav-btns button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: #334155;
+        }
+
         /* Sección del Quiz */
         .quiz-body {
             padding: 30px;
@@ -296,12 +402,6 @@
             transition: all 0.2s ease;
         }
 
-        .option-btn:hover:not(:disabled) {
-            background-color: #26334d;
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
         .option-btn.selected {
             border-color: var(--accent);
             background-color: #26334d;
@@ -333,11 +433,6 @@
             transition: opacity 0.2s, transform 0.2s;
         }
 
-        .btn-next:hover, .btn-submit-multi:hover {
-            opacity: 0.9;
-            transform: scale(1.01);
-        }
-
         .hidden {
             display: none !important;
         }
@@ -351,13 +446,6 @@
             font-size: 2rem;
             margin-bottom: 15px;
             color: var(--accent);
-        }
-
-        .results-container p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            line-height: 1.5;
         }
 
         .score-badge {
@@ -389,24 +477,69 @@
             <h1 id="header-title">Dumb Web Hub</h1>
         </div>
 
-        <!-- VISTA 1: Menú de Botones / Hub -->
+        <!-- VISTA 1: Menú Principal (Hub) -->
         <div class="hub-menu" id="hub-menu">
-            <h2>Selecciona una actividad</h2>
-            <p>Elige a dónde quieres entrar hoy en el universo del Espikos.</p>
+            <h2>Selecciona una sección</h2>
+            <p>Explora el universo y las historias de El Espikos.</p>
             <div class="menu-buttons">
                 <button class="menu-btn" onclick="playSound('click'); startQuiz();">
-                    🎯 Quiz: ¿Qué tanto le sabes al Espikos? <span>➔</span>
+                    🎯 Quiz del Espikos <span>➔</span>
+                </button>
+                <button class="menu-btn" onclick="playSound('click'); openNovelHub();">
+                    📚 Novelas y Lore (Leer en línea) <span>➔</span>
                 </button>
                 <div class="coming-soon-btn">
                     🎮 Próximo Minijuego... <span>🔒</span>
                 </div>
-                <div class="coming-soon-btn">
-                    📚 Lore y Personajes (Pronto) <span>🔒</span>
+            </div>
+        </div>
+
+        <!-- VISTA 2: Biblioteca de Novelas -->
+        <div class="novel-hub hidden" id="novel-hub">
+            <button class="back-hub-btn" onclick="playSound('click'); returnToHub();">⬅ Volver al menú</button>
+            <h2>Biblioteca de El Espikos</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">Elige una novela para comenzar tu lectura digital.</p>
+            <div class="novel-grid">
+                <div class="novel-card" onclick="playSound('click'); loadNovel(0);">
+                    <div class="novel-info">
+                        <h3>Proyecto S.P.K: La sombra que trajo luz</h3>
+                        <p>Libro 1 — Inicia la leyenda de Spike y los oscuros planes de Varnet[cite: 1].</p>
+                    </div>
+                    <span>📖</span>
+                </div>
+                <div class="novel-card" onclick="playSound('click'); loadNovel(1);">
+                    <div class="novel-info">
+                        <h3>Proyecto S.P.K: Umbranova</h3>
+                        <p>Libro 2 — El despertar de Umbranova y la llegada de las criaturas prehistóricas[cite: 2].</p>
+                    </div>
+                    <span>📖</span>
+                </div>
+                <div class="novel-card" onclick="playSound('click'); loadNovel(2);">
+                    <div class="novel-info">
+                        <h3>Luminiscente: El gran inicio de la luz</h3>
+                        <p>Libro 3 — La historia de Skriker, la Luminsword y la verdadera luz[cite: 3].</p>
+                    </div>
+                    <span>📖</span>
                 </div>
             </div>
         </div>
 
-        <!-- VISTA 2: El Quiz -->
+        <!-- VISTA 3: Lector de Capítulos -->
+        <div class="reader-body hidden" id="reader-section">
+            <button class="back-hub-btn" onclick="playSound('click'); openNovelHub();">⬅ Volver a la biblioteca</button>
+            <div class="reader-title" id="reader-novel-title">Título del Libro</div>
+            <select class="chapter-selector" id="chapter-select" onchange="playSound('click'); changeChapter(this.value)">
+            </select>
+            <div class="chapter-content" id="chapter-content">
+                Cargando capítulo...
+            </div>
+            <div class="reader-nav-btns">
+                <button id="prev-chap-btn" onclick="playSound('click'); prevChapter()">⬅ Anterior</button>
+                <button id="next-chap-btn" onclick="playSound('click'); nextChapter()">Siguiente ➡</button>
+            </div>
+        </div>
+
+        <!-- VISTA 4: El Quiz -->
         <div class="quiz-body hidden" id="quiz-section">
             <button class="back-hub-btn" onclick="playSound('click'); returnToHub();">⬅ Volver al menú</button>
             <div class="progress-bar">
@@ -421,7 +554,7 @@
     </div>
 
     <script>
-        // Sistema de Sonidos Web (Web Audio API - Sin archivos externos)
+        // Sistema de Sonidos Modernos (Web Audio API)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playSound(type) {
@@ -429,39 +562,70 @@
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
             const now = audioCtx.currentTime;
 
             if (type === 'click') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(450, now);
-                osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
-                gain.gain.setValueAtTime(0.12, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
                 osc.start(now);
-                osc.stop(now + 0.08);
+                osc.stop(now + 0.05);
             } else if (type === 'correct') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(300, now);
-                osc.frequency.setValueAtTime(500, now + 0.08);
-                osc.frequency.setValueAtTime(750, now + 0.16);
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
-                osc.start(now);
-                osc.stop(now + 0.3);
+                [523.25, 659.25, 783.99].forEach((freq, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + (i * 0.06));
+                    gain.gain.setValueAtTime(0.06, now + (i * 0.06));
+                    gain.gain.linearRampToValueAtTime(0.001, now + (i * 0.06) + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + (i * 0.06));
+                    osc.stop(now + (i * 0.06) + 0.25);
+                });
             } else if (type === 'incorrect') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(200, now);
-                osc.frequency.linearRampToValueAtTime(120, now + 0.15);
-                gain.gain.setValueAtTime(0.12, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.15);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 0.15);
             }
+        }
+
+        // Melodía Ascendente al Iniciar la Web
+        function playWelcomeMelody() {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99]; 
+            
+            notes.forEach((freq, index) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                const noteTime = now + (index * 0.09);
+                osc.frequency.setValueAtTime(freq, noteTime);
+                gain.gain.setValueAtTime(0.04, noteTime);
+                gain.gain.linearRampToValueAtTime(0.001, noteTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(noteTime);
+                osc.stop(noteTime + 0.3);
+            });
         }
 
         // Animación de Carga Inicial
@@ -478,7 +642,7 @@
                     progress = 100;
                     clearInterval(interval);
                     textEl.innerText = "¡Listo!";
-                    playSound('correct');
+                    playWelcomeMelody();
 
                     setTimeout(() => {
                         splashEl.style.opacity = '0';
@@ -487,205 +651,64 @@
                             splashEl.style.display = 'none';
                             mainContainer.classList.add('visible');
                         }, 600);
-                    }, 400);
+                    }, 500);
                 }
                 progressEl.style.width = progress + '%';
             }, 120);
         });
 
-        // Base de Datos de Preguntas
-        const questions = [
-            { question: "Como se llama la piedra que le da poder y nacimiento al espikos siendo la cosa más poderosa de su universo?", options: ["Piedra Filosofal", "CRACK", "Andromedita", "Piedra Espiko"], correct: 2 },
-            { question: "Cierto o Falso: Es verdad que Elías Varnet en su lapso de años con la investigación de la piedra pudo obtener temporalmente una especie de inmortalidad?", options: ["Cierto", "Falso"], correct: 0 },
-            { question: "Que le cayó a Varnet durante su investigación para alcanzar el poder absoluto?", options: ["Una manzana", "Un fragmento de poder celestial", "Un antiguo grimorio que corrompió su mente", "Popo de pajaro", "El 20"], correct: 4 },
-            { question: "¿En donde sale \"El hijo de Hernández\" de Cuarteto de nos?", options: ["En la de Skriker", "Espikos", "YO NO SOY EL ENGENDRO DE VERNET (esta es la correcta xdxd)", "Spike", "Luminiscente", "Cuando aparece el abuelo del eskrikoso", "Spike 3", "En la batalla final de la saga", "Spike 2: Umbranova", "del KILLSANS xdxdxd", "Pues cuando sale Varnet no?"], correct: [2, 8], multiple: true },
-            { question: "Cuáles son los papás de Spike?", options: ["Elias Varnet", "Richar y Mary Parker", "María Antonieta y su hermanita", "¿¡SPIKE TIENE PAPÁS?!", "Una piedrita mágica como no", "Sonic y Shadow"], correct: [3, 4], multiple: true },
-            { question: "¿Que significa este logo?", options: ["Aaah simón es el Distrito Federal", "Defecando Focas", "Dedos en el Fundillo xdxdxd", "Diablos Fuertotes", "Dumb Fantasy", "Amazing Fantasy", "pus es nomas una D y una F que quiere?"], correct: 4 },
-            { question: "Es cierto que Spike tiene miedo a ser rechazado, aunque sea un ser poderoso?", options: ["Si", "Nah que, ES EL ESPIKOS"], correct: 0 },
-            { question: "Ya te leíste Luminiscente? (Donde sale el Skriker pues ah por cierto estas dos son buenas)", options: ["¡SI!", "No...."], correct: [0, 1], multiple: true },
-            { question: "SOY EL VERNTET...", options: ["TENGO QUE ATRAPARLOS", "NAIN NAIN NAIN NAIN NAIN NAIN", "OYE MI VOZ", "Y ESTAS SON MIS ISLAS"], correct: 3 },
-            { question: "Selecciona las canciones mas perronas de la playlist del espikos (puedes checarlas y escucharlas si eso ayuda)", options: ["GOSSIP, My Way Of Life, Bad y Creep", "Dont Stop Me Now, Time to Pretend, Cambiante y I Hear a Simphony", "Holiday, Mr Blue Sky y Im Still Standing", "Intruso, Ride the Lignthing y Lo malo de ser Bueno", "TODAS ALV APARTE DE SER MUCHAS MEJOR PQ ESTAN BIEN PERRONAS"], correct: 4 },
-            { question: "Que significan las siglas S.P.K?", options: ["Señal de Paso Kilometrico", "Sentido de Partido Kiwi", "Servicio de Prevencion de Kaos", "Sujeto de Potencial Kinésico"], correct: 3 },
-            { question: "Es cierto que quieres ver mas del Universo del espikos", options: ["Si", "No"], correct: 0 },
-            { question: "Cuando es el cumpleaños del Espikos?", options: ["30 de febrero", "27 de enero", "26 de mayo", "21 de junio"], correct: 3 },
-            { question: "Que sigue después de la frase \"Alibaba ahí está el fenómeno...\"", options: ["Conlleva una gran responsabilidad", "Yo soy inevitable", "Skibidi dop dop dop yes yes skibidi skibidi diip diiip", "Aquel creado de la naturaleza"], correct: 3 },
-            { question: "Cuál es el nuevo personaje que se presentó en Spike 2 pero existe antes de que se descubriera a Spike?", options: ["Elias Varnet", "El contador", "Lucifer (no el de hazbin si no el de este universo aah ya te espoilie AAAAAH xdxd)", "Skriker"], correct: 3 },
-            { question: "Que le pasara a Varnet en Spike 3? (Spoiler)", options: ["Se volverá amigo del espikos", "Hara la de \"mentira soy bueno\" y sera un pibe normal", "Sera un pejelagarto", "Morirá debido a su sentencia a muerte por todos sus actos ¿Como morirá? eh pues en una silla eléctrica pero no muere... del todo"], correct: 3 },
-            { question: "Spike regresara para Avengers Doomsday?", options: ["Si", "No"], correct: 0 },
-            { question: "A quien hace referencia el espikos cuando die \"VENGO DE BARRIO PU-&quot;...?", options: ["Glicht", "A un amigo suyo (no tiene JAJS, bueno a lo mejor y Skriker)", "Ps al hazbin"], correct: 2 },
-            { question: "Como se llama la ciudad donde se encuentra el espikos?", options: ["Ciudad Gotica", "Nueva York", "Ciudad Seltsamer", "Metropolis"], correct: 2 },
-            { question: "Debería agregar a Ado a la playlist y al universo del espikos?", options: ["Si", "No"], correct: 0 }
+        // ================= BASE DE DATOS DE NOVELAS =================
+        const novelsData = [
+            {
+                title: "Proyecto S.P.K: La sombra que trajo luz[cite: 1]",
+                chapters: [
+                    { title: "Capítulo 1: La Caverna y el Ojo[cite: 1]", text: "Un equipo científico de una empresa descubre que cerca del núcleo de la tierra hay una especie de poder místico proveniente de una piedra. Elias Varnet, el encargado de la investigación, baja con su equipo para investigar y extraer ese poder.\n\n[Interior — Plataforma de descenso. El equipo se prepara. Respiradores, escáneres, tensión.]\n\nCIENTÍFICA 1 (ajustando su visor)\n“Presión atmosférica descendiendo. Temperatura estable. ¿Alguien más ve como que las piedras brillan?”\n\nCIENTÍFICO 2 (mirando el suelo con linterna)\n“Las rocas… se ven como galaxias adentro, pero puede ser otra cosa.”\n\nVARNET (consultando su tableta)\n“El pulso energético está aumentando. Estas rocas no son simples gemas bonitas. Es… poder.”\n\n[El grupo avanza hacia la cámara natural donde descansa la piedra púrpura y el experimento toma un giro drástico cuando Varnet se acerca a reclamar el poder, resultando en un destello cegador y marcando su ojo izquierdo...]" },
+                    { title: "Capítulo 2: El Núcleo del Proyecto[cite: 1]", text: "Años más tarde Varnet haría una nueva organización en secreto para descubrir el potencial de la “Andromedita” siendo investigada por años duraderos gracias a los efectos que le dejo la piedra a Varnet de un estado de inmortalidad temporal, algo que demuestra su potencial. En esos años en una isla no registrada, el Proyecto SPK avanza en silencio..." },
+                    { title: "Capítulo 3: Instinto Bajo Control[cite: 1]", text: "Doce años después. Spike ha crecido. En apariencia, es un adolescente. En potencia, es otra cosa. El Proyecto SPK lo ha entrenado, medido, vigilado. Pero nunca lo ha entendido..." },
+                    { title: "Capítulo 4: Reflejos en el Cristal[cite: 1]", text: "Spike se oculta entre la gente. La ciudad lo conoce como una sombra, un mito. Pero hoy, la sombra decide mostrarse. Varnet señala a Spike como un monstruo..." },
+                    { title: "Capítulo 5: Verdad en la Tormenta[cite: 1]", text: "Spike decide que ya no va a huir y enfrenta a los drones y planes de captura que Varnet elaboro para así poco a poco ir dando la verdad del porque su existencia y sus acciones..." },
+                    { title: "Capítulo 6: El Juicio en el Mar[cite: 1]", text: "La ciudad está dividida. Algunos ven a Spike como un héroe. Otros, como una amenaza. Varnet decide que es hora de controlar la narrativa… con fuego..." },
+                    { title: "Capítulo Final: La Sombra que Trajo Luz[cite: 1]", text: "La batalla terminó. El monstruo cayó. Pero la historia apenas comienza. Spike no busca venganza. Busca significado. Y el mundo… empieza a escuchar." },
+                    { title: "Epílogo: Don’t Stop Me Now[cite: 1]", text: "La ciudad respira. El caos se ha ido. Pero la energía… sigue corriendo..." },
+                    { title: "Capítulo Extra: Y… ¿Qué pasó después?[cite: 1]", text: "[Varnet se encuentra en una prisión en Ciudad Seltsamer, en una prisión llamada V.E.R.O.N.I.C.A de máxima seguridad, Varnet tiene en sus manos algo que le llamaremos… Andromedita]..." }
+                ]
+            },
+            {
+                title: "Proyecto S.P.K: Umbranova[cite: 2]",
+                chapters: [
+                    { title: "Capítulo 1: Rutina de Sombras[cite: 2]", text: "Ciudad Seltsamer — 04:27 a.m. Los tejados se humedecen con la neblina nocturna. Spike observa desde los techos, vigilando los crímenes de esta ciudad para asegurarse de tener todo bajo control..." },
+                    { title: "Capítulo 2: El origen del Pulso[cite: 2]", text: "Ciudad Seltsamer 6:00 pm. En las ultimas horas se ha dado a conocer en las noticias que varios criminales han escapado y no solo criminales comunes..." },
+                    { title: "Capítulo 3: No soy el Engendro de Varnet[cite: 2]", text: "Ciudad Seltsamer 3 días después, 10:03 pm. La ciudad no ha estado tranquila, ni siquiera el mundo, se han hecho intentos para encerrar a estas criaturas..." },
+                    { title: "Capítulo 4: La ayuda del “monstruo”[cite: 2]", text: "Ciudad Seltsamer 12:00 am. Ya han pasado varias semanas, Spike ha mantenido todo bajo control, pero no lo dejan de mirar como si fuera el malo..." },
+                    { title: "Capítulo 5: La duda en Directo[cite: 2]", text: "Ciudad Seltsamer 4:00 pm: La ciudad y el mundo se siente mas tranquila, Spike ha logrado “cooperar” de manera que descubrieron una manera de que las jaulas..." },
+                    { title: "Capítulo 6: El Gran Duque del Infierno[cite: 2]", text: "Queens 02:33 a.m.: Spike ha pensado en lo que dijo Skriker la ultima vez que se vieron, desde entonces todo ha sido mas tranquilo..." },
+                    { title: "Capítulo 7: Latido de Duda[cite: 2]", text: "Ciudad Seltsamer — Techo solitario. La pelea había dejado marca en el resto del mundo, había temblado en todo el mundo y no fue tan leve..." },
+                    { title: "Capítulo 8: La Luz Que No Se Apaga[cite: 2]", text: "Ciudad Seltsamer 10:23 pm. Spike se ha recapacitado completamente y volvió a retener experimentos..." },
+                    { title: "Capítulo 9: No Estoy Solo[cite: 2]", text: "Ciudad Seltsamer — Medianoche. Spike lucha contra Astaroth. Cenrix intenta quebrarlo..." },
+                    { title: "Capítulo 10: El ascenso a Umbranova[cite: 2]", text: "Ciudad Seltsamer — 01:00 a.m. El cielo no ruge. Se quiebra. Astaroth prepara su ultimo ataque y Spike se esta quedando inconsciente..." },
+                    { title: "Capítulo 11: Cuando El Ruido Se Detiene[cite: 2]", text: "Ciudad Seltsamer — tras la caída del dragón. El caos por fin a acabado Spike se siente mas liberado..." },
+                    { title: "Epílogo: Ese pude haber sido yo…[cite: 2]", text: "Ciudad Seltsamer– Torre Punkt – 10:00 a.m. La ciudad es prospera mientras construye, las noticias salen al aire..." }
+                ]
+            },
+            {
+                title: "Luminiscente: El gran inicio de la luz[cite: 3]",
+                chapters: [
+                    { title: "Libro Uno: Luminsword[cite: 3]", text: "Es el año 2013, el mundo está pasando por cosas nuevas, la guerra de consolas, el Google glass, pero en esta versión del universo algo cambio…[cite: 3]" },
+                    { title: "Libro Dos: Nace el Portador[cite: 3]", text: "En este lugar trabaja alguien que podría ayudar con cierta situación que acaba de suceder y con lugar me refiero a un cajero de comida rápida...[cite: 3]" },
+                    { title: "Libro Tres: Skriker — El nombre que brilla[cite: 3]", text: "Orion logra llegar de nuevo a su departamento, obviamente entro por la entrada más viable y que normalmente uno usaría para entrar…[cite: 3]" },
+                    { title: "Libro Cuatro: Skriker — Corrupción en la luz[cite: 3]", text: "Skriker ya es mucho más reconocido en las calles y no solo eso, ya se ha dado a conocer su nombre por todo el mundo...[cite: 3]" },
+                    { title: "Libro Cinco: Mi sufrimiento habla por mí[cite: 3]", text: "El edificio quedo casi en ruinas, una pena para los constructores que se tardaron años con eso…[cite: 3]" },
+                    { title: "Libro Seis: Skriker — El último desafío para la verdad[cite: 3]", text: "Con todo el poder de la armadura, Orion se dirige hacia Nueva York, aterriza en el Empire State...[cite: 3]" },
+                    { title: "Libro Final: Skriker — La luz que permanece[cite: 3]", text: "El caos por fin a acabado, las autoridades evacuaron a la gente con éxito...[cite: 3]" },
+                    { title: "Epílogo: Que hermoso día[cite: 3]", text: "Los días han pasado y ya van en el vuelo, Orion parece feliz ya que por fin va a enfocarse en sus estudios...[cite: 3]" },
+                    { title: "Capítulo Extra: ¿Y… qué pasó después?[cite: 3]", text: "En los laboratorios de Varnet han tomado información sobre las ultimas batallas y el encuentro entre Skriker y Voltaje...[cite: 3]" }
+                ]
+            }
         ];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let selectedAnswers = [];
-        let answered = false;
+        let currentNovelIndex = 0;
+        let currentChapterIndex = 0;
 
-        const hubMenuEl = document.getElementById('hub-menu');
-        const quizSectionEl = document.getElementById('quiz-section');
-        const headerTitleEl = document.getElementById('header-title');
-        const questionNumberEl = document.getElementById('question-number');
-        const questionTextEl = document.getElementById('question-text');
-        const optionsListEl = document.getElementById('options-list');
-        const progressEl = document.getElementById('progress');
-        const actionBtn = document.getElementById('action-btn');
-        const multiHintEl = document.getElementById('multi-hint');
+        const hub
 
-        function startQuiz() {
-            hubMenuEl.classList.add('hidden');
-            quizSectionEl.classList.remove('hidden');
-            headerTitleEl.innerText = "Quiz del Espikos";
-            currentQuestion = 0;
-            score = 0;
-            loadQuestion();
-        }
-
-        function returnToHub() {
-            quizSectionEl.classList.add('hidden');
-            hubMenuEl.classList.remove('hidden');
-            headerTitleEl.innerText = "Dumb Web Hub";
-        }
-
-        function loadQuestion() {
-            answered = false;
-            selectedAnswers = [];
-            actionBtn.classList.add('hidden');
-            
-            const q = questions[currentQuestion];
-            questionNumberEl.innerText = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
-            questionTextEl.innerText = q.question;
-            
-            progressEl.style.width = `${((currentQuestion) / questions.length) * 100}%`;
-
-            if (q.multiple) {
-                multiHintEl.style.display = 'block';
-                actionBtn.innerText = 'Comprobar respuesta';
-                actionBtn.classList.remove('hidden');
-            } else {
-                multiHintEl.style.display = 'none';
-            }
-
-            optionsListEl.innerHTML = '';
-            q.options.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = option;
-                btn.onclick = () => {
-                    playSound('click');
-                    selectOption(index, btn, q.multiple);
-                };
-                optionsListEl.appendChild(btn);
-            });
-        }
-
-        function selectOption(index, btn, isMultiple) {
-            if (answered) return;
-
-            if (isMultiple) {
-                const pos = selectedAnswers.indexOf(index);
-                if (pos > -1) {
-                    selectedAnswers.splice(pos, 1);
-                    btn.classList.remove('selected');
-                } else {
-                    selectedAnswers.push(index);
-                    btn.classList.add('selected');
-                }
-            } else {
-                answered = true;
-                const q = questions[currentQuestion];
-                const buttons = optionsListEl.children;
-
-                if (index === q.correct) {
-                    btn.classList.add('correct');
-                    playSound('correct');
-                    score++;
-                } else {
-                    btn.classList.add('incorrect');
-                    playSound('incorrect');
-                    buttons[q.correct].classList.add('correct');
-                }
-
-                setTimeout(() => {
-                    currentQuestion++;
-                    if (currentQuestion < questions.length) {
-                        loadQuestion();
-                    } else {
-                        showResults();
-                    }
-                }, 1400);
-            }
-        }
-
-        function handleActionBtn() {
-            if (answered) return;
-            playSound('click');
-            const q = questions[currentQuestion];
-            if (selectedAnswers.length === 0) {
-                alert('Por favor selecciona al menos una opción.');
-                return;
-            }
-
-            answered = true;
-            const buttons = optionsListEl.children;
-            const correctArr = Array.isArray(q.correct) ? q.correct : [q.correct];
-
-            const isCorrect = selectedAnswers.length === correctArr.length && 
-                              selectedAnswers.every(val => correctArr.includes(val));
-
-            if (isCorrect) {
-                score++;
-                playSound('correct');
-                selectedAnswers.forEach(idx => buttons[idx].classList.add('correct'));
-            } else {
-                playSound('incorrect');
-                selectedAnswers.forEach(idx => {
-                    if (correctArr.includes(idx)) {
-                        buttons[idx].classList.add('correct');
-                    } else {
-                        buttons[idx].classList.add('incorrect');
-                    }
-                });
-                correctArr.forEach(idx => {
-                    buttons[idx].classList.add('correct');
-                });
-            }
-
-            actionBtn.innerText = 'Siguiente pregunta';
-            actionBtn.onclick = nextQuestion;
-        }
-
-        function nextQuestion() {
-            playSound('click');
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                actionBtn.onclick = handleActionBtn;
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            progressEl.style.width = '100%';
-            let feedback = "";
-            if (score === questions.length) {
-                feedback = "¡Impresionante! ¡Eres todo un experto en el universo del Espikos! 🔥";
-            } else if (score >= questions.length / 2) {
-                feedback = "¡Muy bien! Conoces bastante bien al Espikos, aunque te faltaron algunos detallitos. 😎";
-            } else {
-                feedback = "¡Te falta leer más sobre el Espikos y sus aventuras! Échale un ojo al Lore. 📚";
-            }
-
-            quizSectionEl.innerHTML = `
-                <div class="results-container">
-                    <h2>¡Quiz Completado!</h2>
-                    <div class="score-badge">${score} / ${questions.length}</div>
-                    <p>${feedback}</p>
-                    <button class="btn-next" onclick="playSound('click'); returnToHub()">Volver al menú principal</button>
-                </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+        
