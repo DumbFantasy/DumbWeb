@@ -709,6 +709,266 @@
         let currentNovelIndex = 0;
         let currentChapterIndex = 0;
 
-        const hub
+        const hubMenuEl = document.getElementById('hub-menu');
+        const novelHubEl = document.getElementById('novel-hub');
+        const readerSectionEl = document.getElementById('reader-section');
+        const quizSectionEl = document.getElementById('quiz-section');
+        const headerTitleEl = document.getElementById('header-title');
 
-        
+        function openNovelHub() {
+            hubMenuEl.classList.add('hidden');
+            quizSectionEl.classList.add('hidden');
+            readerSectionEl.classList.add('hidden');
+            novelHubEl.classList.remove('hidden');
+            headerTitleEl.innerText = "Novelas y Lore";
+        }
+
+        function returnToHub() {
+            novelHubEl.classList.add('hidden');
+            readerSectionEl.classList.add('hidden');
+            quizSectionEl.classList.add('hidden');
+            hubMenuEl.classList.remove('hidden');
+            headerTitleEl.innerText = "Dumb Web Hub";
+        }
+
+        function loadNovel(index) {
+            currentNovelIndex = index;
+            currentChapterIndex = 0;
+            novelHubEl.classList.add('hidden');
+            readerSectionEl.classList.remove('hidden');
+
+            const novel = novelsData[index];
+            document.getElementById('reader-novel-title').innerText = novel.title;
+
+            const selectEl = document.getElementById('chapter-select');
+            selectEl.innerHTML = '';
+            novel.chapters.forEach((chap, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = chap.title;
+                selectEl.appendChild(opt);
+            });
+
+            displayChapter();
+        }
+
+        function displayChapter() {
+            const novel = novelsData[currentNovelIndex];
+            const chap = novel.chapters[currentChapterIndex];
+            document.getElementById('chapter-content').innerText = chap.text;
+            document.getElementById('chapter-select').value = currentChapterIndex;
+
+            document.getElementById('prev-chap-btn').disabled = currentChapterIndex === 0;
+            document.getElementById('next-chap-btn').disabled = currentChapterIndex === novel.chapters.length - 1;
+            
+            readerSectionEl.scrollTop = 0;
+        }
+
+        function changeChapter(index) {
+            currentChapterIndex = parseInt(index);
+            displayChapter();
+        }
+
+        function nextChapter() {
+            const novel = novelsData[currentNovelIndex];
+            if (currentChapterIndex < novel.chapters.length - 1) {
+                currentChapterIndex++;
+                displayChapter();
+            }
+        }
+
+        function prevChapter() {
+            if (currentChapterIndex > 0) {
+                currentChapterIndex--;
+                displayChapter();
+            }
+        }
+
+        // ================= SISTEMA DE QUIZ =================
+        const questions = [
+            { question: "Como se llama la piedra que le da poder y nacimiento al espikos siendo la cosa más poderosa de su universo?", options: ["Piedra Filosofal", "CRACK", "Andromedita", "Piedra Espiko"], correct: 2 },
+            { question: "Cierto o Falso: Es verdad que Elías Varnet en su lapso de años con la investigación de la piedra pudo obtener temporalmente una especie de inmortalidad?", options: ["Cierto", "Falso"], correct: 0 },
+            { question: "Que le cayó a Varnet durante su investigación para alcanzar el poder absoluto?", options: ["Una manzana", "Un fragmento de poder celestial", "Un antiguo grimorio que corrompió su mente", "Popo de pajaro", "El 20"], correct: 4 },
+            { question: "¿En donde sale \"El hijo de Hernández\" de Cuarteto de nos?", options: ["En la de Skriker", "Espikos", "YO NO SOY EL ENGENDRO DE VERNET (esta es la correcta xdxd)", "Spike", "Luminiscente", "Cuando aparece el abuelo del eskrikoso", "Spike 3", "En la batalla final de la saga", "Spike 2: Umbranova", "del KILLSANS xdxdxd", "Pues cuando sale Varnet no?"], correct: [2, 8], multiple: true },
+            { question: "Cuáles son los papás de Spike?", options: ["Elias Varnet", "Richar y Mary Parker", "María Antonieta y su hermanita", "¿¡SPIKE TIENE PAPÁS?!", "Una piedrita mágica como no", "Sonic y Shadow"], correct: [3, 4], multiple: true },
+            { question: "¿Que significa este logo?", options: ["Aaah simón es el Distrito Federal", "Defecando Focas", "Dedos en el Fundillo xdxdxd", "Diablos Fuertotes", "Dumb Fantasy", "Amazing Fantasy", "pus es nomas una D y una F que quiere?"], correct: 4 },
+            { question: "Es cierto que Spike tiene miedo a ser rechazado, aunque sea un ser poderoso?", options: ["Si", "Nah que, ES EL ESPIKOS"], correct: 0 },
+            { question: "Ya te leíste Luminiscente? (Donde sale el Skriker pues ah por cierto estas dos son buenas)", options: ["¡SI!", "No...."], correct: [0, 1], multiple: true },
+            { question: "SOY EL VERNTET...", options: ["TENGO QUE ATRAPARLOS", "NAIN NAIN NAIN NAIN NAIN NAIN", "OYE MI VOZ", "Y ESTAS SON MIS ISLAS"], correct: 3 },
+            { question: "Selecciona las canciones mas perronas de la playlist del espikos (puedes checarlas y escucharlas si eso ayuda)", options: ["GOSSIP, My Way Of Life, Bad y Creep", "Dont Stop Me Now, Time to Pretend, Cambiante y I Hear a Simphony", "Holiday, Mr Blue Sky y Im Still Standing", "Intruso, Ride the Lignthing y Lo malo de ser Bueno", "TODAS ALV APARTE DE SER MUCHAS MEJOR PQ ESTAN BIEN PERRONAS"], correct: 4 },
+            { question: "Que significan las siglas S.P.K?", options: ["Señal de Paso Kilometrico", "Sentido de Partido Kiwi", "Servicio de Prevencion de Kaos", "Sujeto de Potencial Kinésico"], correct: 3 },
+            { question: "Es cierto que quieres ver mas del Universo del espikos", options: ["Si", "No"], correct: 0 },
+            { question: "Cuando es el cumpleaños del Espikos?", options: ["30 de febrero", "27 de enero", "26 de mayo", "21 de junio"], correct: 3 },
+            { question: "Que sigue después de la frase \"Alibaba ahí está el fenómeno...\"", options: ["Conlleva una gran responsabilidad", "Yo soy inevitable", "Skibidi dop dop dop yes yes skibidi skibidi diip diiip", "Aquel creado de la naturaleza"], correct: 3 },
+            { question: "Cuál es el nuevo personaje que se presentó en Spike 2 pero existe antes de que se descubriera a Spike?", options: ["Elias Varnet", "El contador", "Lucifer (no el de hazbin si no el de este universo aah ya te espoilie AAAAAH xdxd)", "Skriker"], correct: 3 },
+            { question: "Que le pasara a Varnet en Spike 3? (Spoiler)", options: ["Se volverá amigo del espikos", "Hara la de \"mentira soy bueno\" y sera un pibe normal", "Sera un pejelagarto", "Morirá debido a su sentencia a muerte por todos sus actos ¿Como morirá? eh pues en una silla eléctrica pero no muere... del todo"], correct: 3 },
+            { question: "Spike regresara para Avengers Doomsday?", options: ["Si", "No"], correct: 0 },
+            { question: "A quien hace referencia el espikos cuando die \"VENGO DE BARRIO PU-&quot;...?", options: ["Glicht", "A un amigo suyo (no tiene JAJS, bueno a lo mejor y Skriker)", "Ps al hazbin"], correct: 2 },
+            { question: "Como se llama la ciudad donde se encuentra el espikos?", options: ["Ciudad Gotica", "Nueva York", "Ciudad Seltsamer", "Metropolis"], correct: 2 },
+            { question: "Debería agregar a Ado a la playlist y al universo del espikos?", options: ["Si", "No"], correct: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswers = [];
+        let answered = false;
+
+        const questionNumberEl = document.getElementById('question-number');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsListEl = document.getElementById('options-list');
+        const progressEl = document.getElementById('progress');
+        const actionBtn = document.getElementById('action-btn');
+        const multiHintEl = document.getElementById('multi-hint');
+
+        function startQuiz() {
+            hubMenuEl.classList.add('hidden');
+            novelHubEl.classList.add('hidden');
+            quizSectionEl.classList.remove('hidden');
+            headerTitleEl.innerText = "Quiz del Espikos";
+            currentQuestion = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            selectedAnswers = [];
+            actionBtn.classList.add('hidden');
+            
+            const q = questions[currentQuestion];
+            questionNumberEl.innerText = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
+            questionTextEl.innerText = q.question;
+            
+            progressEl.style.width = `${((currentQuestion) / questions.length) * 100}%`;
+
+            if (q.multiple) {
+                multiHintEl.style.display = 'block';
+                actionBtn.innerText = 'Comprobar respuesta';
+                actionBtn.classList.remove('hidden');
+            } else {
+                multiHintEl.style.display = 'none';
+            }
+
+            optionsListEl.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = option;
+                btn.onclick = () => {
+                    playSound('click');
+                    selectOption(index, btn, q.multiple);
+                };
+                optionsListEl.appendChild(btn);
+            });
+        }
+
+        function selectOption(index, btn, isMultiple) {
+            if (answered) return;
+
+            if (isMultiple) {
+                const pos = selectedAnswers.indexOf(index);
+                if (pos > -1) {
+                    selectedAnswers.splice(pos, 1);
+                    btn.classList.remove('selected');
+                } else {
+                    selectedAnswers.push(index);
+                    btn.classList.add('selected');
+                }
+            } else {
+                answered = true;
+                const q = questions[currentQuestion];
+                const buttons = optionsListEl.children;
+
+                if (index === q.correct) {
+                    btn.classList.add('correct');
+                    playSound('correct');
+                    score++;
+                } else {
+                    btn.classList.add('incorrect');
+                    playSound('incorrect');
+                    buttons[q.correct].classList.add('correct');
+                }
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        loadQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 1400);
+            }
+        }
+
+        function handleActionBtn() {
+            if (answered) return;
+            playSound('click');
+            const q = questions[currentQuestion];
+            if (selectedAnswers.length === 0) {
+                alert('Por favor selecciona al menos una opción.');
+                return;
+            }
+
+            answered = true;
+            const buttons = optionsListEl.children;
+            const correctArr = Array.isArray(q.correct) ? q.correct : [q.correct];
+
+            const isCorrect = selectedAnswers.length === correctArr.length && 
+                              selectedAnswers.every(val => correctArr.includes(val));
+
+            if (isCorrect) {
+                score++;
+                playSound('correct');
+                selectedAnswers.forEach(idx => buttons[idx].classList.add('correct'));
+            } else {
+                playSound('incorrect');
+                selectedAnswers.forEach(idx => {
+                    if (correctArr.includes(idx)) {
+                        buttons[idx].classList.add('correct');
+                    } else {
+                        buttons[idx].classList.add('incorrect');
+                    }
+                });
+                correctArr.forEach(idx => {
+                    buttons[idx].classList.add('correct');
+                });
+            }
+
+            actionBtn.innerText = 'Siguiente pregunta';
+            actionBtn.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                actionBtn.onclick = handleActionBtn;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            progressEl.style.width = '100%';
+            let feedback = "";
+            if (score === questions.length) {
+                feedback = "¡Impresionante! ¡Eres todo un experto en el universo del Espikos! 🔥";
+            } else if (score >= questions.length / 2) {
+                feedback = "¡Muy bien! Conoces bastante bien al Espikos, aunque te faltaron algunos detallitos. 😎";
+            } else {
+                feedback = "¡Te falta leer más sobre el Espikos y sus aventuras! Échale un ojo al Lore. 📚";
+            }
+
+            quizSectionEl.innerHTML = `
+                <div class="results-container">
+                    <h2>¡Quiz Completado!</h2>
+                    <div class="score-badge">${score} / ${questions.length}</div>
+                    <p>${feedback}</p>
+                    <button class="btn-next" onclick="playSound('click'); returnToHub()">Volver al menú principal</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
