@@ -1,4 +1,4 @@
-// Base de datos de novelas y textos completos
+// Base de datos de novelas y textos completos de El Espikos
 const novelsData = [
     {
         title: "Proyecto S.P.K: La sombra que trajo luz",
@@ -49,9 +49,10 @@ let currentChapterIndex = 0;
 
 function renderNovelList() {
     const gridContainer = document.getElementById('novel-grid-container');
+    if (!gridContainer) return;
     gridContainer.innerHTML = '';
     
-    novelasData.forEach((novel, index) => {
+    novelsData.forEach((novel, index) => {
         const card = document.createElement('div');
         card.className = 'novel-card';
         card.onclick = () => { playSound('click'); loadNovel(index); };
@@ -60,7 +61,7 @@ function renderNovelList() {
             <div class="novel-cover-art">LIBRO ${index + 1}</div>
             <div class="novel-info">
                 <h3>${novel.title}</h3>
-                <p>${novel.chapters.length} ${novel.chapters.length === 1 ? 'capítulo disponible' : 'capítulos disponibles'}.</p>
+                <p>${novel.chapters.length} capítulos disponibles.</p>
             </div>
         `;
         gridContainer.appendChild(card);
