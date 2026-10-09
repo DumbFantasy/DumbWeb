@@ -1,122 +1,94 @@
-// Base de datos de novelas y textos completos de El Espikos
-const novelsData = [
-    {
-        title: "Proyecto S.P.K: La sombra que trajo luz",
-        chapters: [
-            { 
-                title: "Capítulo 1: La Caverna y el Ojo", 
-                text: `Un equipo científico de una empresa descubre que cerca del núcleo de la tierra hay una especie de poder místico proveniente de una piedra. Elias Varnet, el encargado de la investigación, baja con su equipo para extraer ese poder.
+<!-- SECCIÓN DE NOVELAS / LIBRERÍA CON PORTADAS Y ENLACES EXTERNOS -->
+<section class="w-full max-w-5xl mx-auto py-8 px-4">
+    <div class="text-center mb-10">
+        <span class="px-4 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full uppercase tracking-widest">
+            Biblioteca del S.P.K
+        </span>
+        <h2 class="text-3xl md:text-4xl font-black text-white mt-3 uppercase tracking-tight">
+            Novelas <span class="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Oficiales</span>
+        </h2>
+        <p class="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
+            Explora los archivos clasificados. Haz clic en la portada de cada libro para abrir el documento completo y leer la historia sin censura.
+        </p>
+    </div>
 
-[Interior — Plataforma de descenso. El equipo se prepara.]
-
-CIENTÍFICA 1 (ajustando su visor)
-“Presión atmosférica descendiendo. Temperatura estable. ¿Alguien más ve como que las piedras brillan?”
-
-CIENTÍFICO 2 (mirando el suelo con linterna)
-“Las rocas… se ven como galaxias adentro.”
-
-VARNET (consultando su tableta)
-“El pulso energético está aumentando. Esto es poder puro.”
-
-[El grupo avanza hacia la cámara natural donde descansa la piedra púrpura...]` 
-            },
-            { 
-                title: "Capítulo 2: El Núcleo del Proyecto", 
-                text: `Años más tarde Varnet crearía una organización secreta para investigar el potencial de la Andromedita, aprovechando el estado de inmortalidad temporal que la piedra le otorgó en su ojo izquierdo...` 
-            },
-            { 
-                title: "Capítulo 3: Instinto Bajo Control", 
-                text: `Doce años después, Spike crece bajo el resguardo y estricto monitoreo del Proyecto SPK, entrenando habilidades que desafían la lógica...` 
-            }
-        ]
-    },
-    {
-        title: "Proyecto S.P.K: Umbranova",
-        chapters: [
-            { title: "Capítulo 1: Rutina de Sombras", text: "Ciudad Seltsamer — 04:27 a.m. Los tejados absorben la neblina nocturna mientras Spike vigila desde las alturas..." }
-        ]
-    },
-    {
-        title: "Luminiscente: El gran inicio de la luz",
-        chapters: [
-            { title: "Libro Uno: Luminsword", text: "Año 2013. El mundo experimenta una revolución tecnológica mientras las fuerzas ocultas de la luz comienzan a manifestarse..." }
-        ]
-    }
-];
-
-let currentNovelIndex = 0;
-let currentChapterIndex = 0;
-
-function renderNovelList() {
-    const gridContainer = document.getElementById('novel-grid-container');
-    if (!gridContainer) return;
-    gridContainer.innerHTML = '';
-    
-    novelsData.forEach((novel, index) => {
-        const card = document.createElement('div');
-        card.className = 'novel-card';
-        card.onclick = () => { playSound('click'); loadNovel(index); };
+    <!-- Grid de Libros / Portadas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        card.innerHTML = `
-            <div class="novel-cover-art">LIBRO ${index + 1}</div>
-            <div class="novel-info">
-                <h3>${novel.title}</h3>
-                <p>${novel.chapters.length} capítulos disponibles.</p>
+        <!-- LIBRO 1 -->
+        <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
+            <div>
+                <!-- Contenedor de la Portada -->
+                <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-slate-950 border border-purple-900/50 shadow-inner">
+                    <img src="URL_PORTADA_LIBRO_1.jpg" alt="Portada Proyecto S.P.K: La sombra que trajo luz" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                    <span class="absolute bottom-3 left-3 bg-purple-600/80 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
+                        Libro 1
+                    </span>
+                </div>
+                <h3 class="text-xl font-black text-white mb-2 leading-snug">
+                    Proyecto S.P.K: La sombra que trajo luz
+                </h3>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                    El descubrimiento de la Andromedita, el inicio de las investigaciones de Elias Varnet y el despertar de una anomalía cósmica.
+                </p>
             </div>
-        `;
-        gridContainer.appendChild(card);
-    });
-}
+            <!-- Botón Enlace a Word / Archivo Externo -->
+            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_1.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
+                <span>Leer en Archivo (Word)</span>
+                <span>📂</span>
+            </a>
+        </div>
 
-function loadNovel(index) {
-    currentNovelIndex = index;
-    currentChapterIndex = 0;
-    document.getElementById('novel-hub').classList.add('hidden');
-    document.getElementById('reader-section').classList.remove('hidden');
+        <!-- LIBRO 2 -->
+        <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
+            <div>
+                <!-- Contenedor de la Portada -->
+                <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-slate-950 border border-purple-900/50 shadow-inner">
+                    <img src="URL_PORTADA_LIBRO_2.jpg" alt="Portada Proyecto S.P.K: Umbranova" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                    <span class="absolute bottom-3 left-3 bg-pink-600/80 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
+                        Libro 2
+                    </span>
+                </div>
+                <h3 class="text-xl font-black text-white mb-2 leading-snug">
+                    Proyecto S.P.K: Umbranova
+                </h3>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                    Las sombras se extienden sobre Ciudad Seltsamer mientras nuevos peligros, secretos del pasado y facciones ocultas entran en juego.
+                </p>
+            </div>
+            <!-- Botón Enlace a Word / Archivo Externo -->
+            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_2.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
+                <span>Leer en Archivo (Word)</span>
+                <span>📂</span>
+            </a>
+        </div>
 
-    const novel = novelsData[index];
-    document.getElementById('reader-novel-title').innerText = novel.title;
+        <!-- LIBRO 3 -->
+        <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
+            <div>
+                <!-- Contenedor de la Portada -->
+                <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-slate-950 border border-purple-900/50 shadow-inner">
+                    <img src="URL_PORTADA_LIBRO_3.jpg" alt="Portada Luminiscente" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                    <span class="absolute bottom-3 left-3 bg-amber-600/80 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
+                        Libro 3
+                    </span>
+                </div>
+                <h3 class="text-xl font-black text-white mb-2 leading-snug">
+                    Luminiscente
+                </h3>
+                <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
+                    El clímax de la saga. El enfrentamiento definitivo, los giros inesperados con Varnet y el destino final del espikos al descubierto.
+                </p>
+            </div>
+            <!-- Botón Enlace a Word / Archivo Externo -->
+            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_3.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
+                <span>Leer en Archivo (Word)</span>
+                <span>📂</span>
+            </a>
+        </div>
 
-    const selectEl = document.getElementById('chapter-select');
-    selectEl.innerHTML = '';
-    novel.chapters.forEach((chap, i) => {
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.innerText = chap.title;
-        selectEl.appendChild(opt);
-    });
-
-    displayChapter();
-}
-
-function displayChapter() {
-    const novel = novelsData[currentNovelIndex];
-    const chap = novel.chapters[currentChapterIndex];
-    document.getElementById('chapter-content').innerText = chap.text;
-    document.getElementById('chapter-select').value = currentChapterIndex;
-
-    document.getElementById('prev-chap-btn').disabled = currentChapterIndex === 0;
-    document.getElementById('next-chap-btn').disabled = currentChapterIndex === novel.chapters.length - 1;
-    
-    document.getElementById('reader-section').scrollTop = 0;
-}
-
-function changeChapter(index) {
-    currentChapterIndex = parseInt(index);
-    displayChapter();
-}
-
-function nextChapter() {
-    const novel = novelsData[currentNovelIndex];
-    if (currentChapterIndex < novel.chapters.length - 1) {
-        currentChapterIndex++;
-        displayChapter();
-    }
-}
-
-function prevChapter() {
-    if (currentChapterIndex > 0) {
-        currentChapterIndex--;
-        displayChapter();
-    }
-}
+    </div>
+</section>
