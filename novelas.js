@@ -15,7 +15,7 @@
     <!-- Grid de Libros / Portadas -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <!-- LIBRO 1 -->
+        <!-- LIBRO 1 (CON TU ENLACE INTEGRADO) -->
         <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
             <div>
                 <!-- Contenedor de la Portada -->
@@ -33,8 +33,8 @@
                     El descubrimiento de la Andromedita, el inicio de las investigaciones de Elias Varnet y el despertar de una anomalía cósmica.
                 </p>
             </div>
-            <!-- Botón Enlace a Word / Archivo Externo -->
-            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_1.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
+            <!-- Botón Enlace a Google Drive -->
+            <a href="https://docs.google.com/document/d/1JQAf7fMpbLzZtgcAC3EbIC0iDAvpH4sQ/edit?usp=sharing&ouid=100873769170710572414&rtpof=true&sd=true" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
                 <span>Leer en Archivo (Word)</span>
                 <span>📂</span>
             </a>
