@@ -16,7 +16,7 @@
 </head>
 <body class="bg-black text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-500 selection:text-white">
 
-    <!-- Encabezado / Barra Superior DumbWeb -->
+    <!-- Encabezado / Barra Superior DumbWeb (Limpio y sin botones a la derecha) -->
     <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-orange-500/30">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <!-- Logo DW a la izquierda -->
@@ -28,12 +28,6 @@
                     DumbWeb
                 </span>
             </a>
-            <!-- Botón de Inicio de Sesión / Acceso con Sonido Electrónico -->
-            <div>
-                <button onclick="playLoginRiserEffect()" class="px-4 py-2 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-orange-500/20 transition-all flex items-center space-x-2">
-                    <span>⚡ Acceso S.P.K</span>
-                </button>
-            </div>
         </div>
     </header>
 
@@ -46,14 +40,14 @@
                 Red Oficial DumbWeb
             </span>
             <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4">
-                Universos de <span class="bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent">El Espikos</span>
+                Universos de <span class="bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent">DumbFantasy</span>
             </h1>
             <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
                 Bienvenido a la plataforma central. Explora las sagas, historias y archivos clasificados bajo la estética e identidad oficial de DumbWeb.
             </p>
         </section>
 
-        <!-- SECCIÓN DE NOVELAS / LIBRERÍA (Estilo DumbWeb Naranja/Magenta) -->
+        <!-- SECCIÓN DE NOVELAS / LIBRERÍA -->
         <section id="novelas" class="w-full max-w-5xl mx-auto py-8 px-4">
             <div class="text-center mb-10">
                 <span class="px-4 py-1.5 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-bold rounded-full uppercase tracking-widest">
@@ -143,35 +137,68 @@
 
             </div>
         </section>
-<!-- SECCIÓN DE LORE / UNIVERSO EL ESPIKOS -->
+<!-- SECCIÓN DE PERSONAJES Y LORE / EL UNIVERSO -->
         <section id="universo" class="w-full max-w-5xl mx-auto py-16 px-4 border-t border-zinc-900 mt-12">
             <div class="text-center mb-12">
                 <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
                     Archivos Clasificados
                 </span>
                 <h2 class="text-3xl md:text-4xl font-black text-white mt-3 uppercase tracking-tight">
-                    El <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Universo</span>
+                    Personajes & <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Elementos</span>
                 </h2>
                 <p class="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                    Conoce los orígenes, los protagonistas y los misterios detrás del Proyecto S.P.K.
+                    Conoce a los protagonistas y los misterios clave detrás del Proyecto S.P.K.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Tarjeta Lore 1 -->
+            <!-- Grid de Fichas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <!-- Spike -->
                 <div class="bg-zinc-900/80 border border-orange-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-orange-400 mb-3">La Piedra Andromedita</h3>
+                    <h3 class="text-xl font-black text-orange-400 mb-3">Spike</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
-                        Un mineral de origen desconocido extraído cerca del núcleo terrestre. Escribe patrones energéticos que desafían la física cuántica y otorga habilidades extraordinarias a quienes logran sincronizarse con ella.
+                        El sujeto principal del Proyecto S.P.K. Una anomalía viviente con reflejos sobrehumanos y la capacidad de absorber y canalizar energía pura. Prefiere la libertad antes que someterse a los planes de control de Varnet.
                     </p>
                 </div>
 
-                <!-- Tarjeta Lore 2 -->
+                <!-- Elias Varnet -->
                 <div class="bg-zinc-900/80 border border-pink-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-pink-400 mb-3">Elias Varnet y Spike</h3>
+                    <h3 class="text-xl font-black text-pink-400 mb-3">Elias Varnet</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
-                        Marcado por la radiación y un deseo insaciable de control, Varnet busca dominar la energía del cosmos, mientras que Spike lucha por forjar su propio destino más allá de ser un experimento.
+                        Científico brillante y líder corporativo consumido por la ambición. Tras el accidente con la Andromedita, busca por todos los medios apoderarse del poder absoluto, manipulando la verdad pública a su favor.
                     </p>
+                </div>
+
+                <!-- Skriker -->
+                <div class="bg-zinc-900/80 border border-fuchsia-500/20 rounded-3xl p-8 backdrop-blur-xl">
+                    <h3 class="text-xl font-black text-fuchsia-400 mb-3">Skriker</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Una presencia imponente y enigmática dentro del lore de los universos, cuyas acciones y naturaleza operan en las sombras del conflicto principal.
+                    </p>
+                </div>
+
+                <!-- La Andromedita -->
+                <div class="bg-zinc-900/80 border border-orange-500/20 rounded-3xl p-8 backdrop-blur-xl">
+                    <h3 class="text-xl font-black text-orange-400 mb-3">La Andromedita</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Mineral de origen cósmico descubierto cerca del núcleo terrestre. Escribe patrones energéticos indescifrables y es la fuente original de todo el fenómeno del Proyecto S.P.K.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Panel de Inicio de Sesión / Acceso DumbWeb -->
+            <div class="max-w-md mx-auto bg-zinc-900/90 border border-orange-500/40 rounded-3xl p-8 text-center glow-orange-magenta backdrop-blur-xl">
+                <h3 class="text-2xl font-black text-white mb-2">Terminal DumbWeb</h3>
+                <p class="text-slate-400 text-xs mb-6">Inicia sesión en el sistema central para sincronizar tus archivos y permisos del S.P.K.</p>
+                
+                <div class="space-y-4">
+                    <input type="text" placeholder="Usuario / Investigador" class="w-full px-4 py-3 bg-black border border-zinc-800 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500 transition-colors">
+                    <input type="password" placeholder="Contraseña de Acceso" class="w-full px-4 py-3 bg-black border border-zinc-800 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500 transition-colors">
+                    
+                    <!-- Botón de Iniciar Sesión con el nuevo sintetizador lento y calmado -->
+                    <button onclick="playLoginRiserEffect()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white font-extrabold rounded-xl shadow-lg shadow-orange-500/20 transition-all">
+                        Iniciar Sesión
+                    </button>
                 </div>
             </div>
         </section>
@@ -181,7 +208,7 @@
     <!-- Pie de página DumbWeb -->
     <footer class="border-t border-zinc-900 bg-black py-10 text-center text-xs text-slate-500 mt-16">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p>© 2026 DumbWeb - Universos de El Espikos. Todos los derechos reservados.</p>
+            <p>© 2026 DumbWeb - Universos de DumbFantasy. Todos los derechos reservados.</p>
             <div class="flex space-x-6 text-orange-400 font-mono">
                 <span>[SISTEMA: EN LÍNEA]</span>
                 <span>[ESTÉTICA: DW-ORANGE/MAGENTA]</span>
@@ -189,9 +216,8 @@
         </div>
     </footer>
 
-    <!-- Script de Audio Web API (Efectos de botones y Sintetizador de Inicio de Sesión) -->
+    <!-- Script de Audio Web API (Efectos de botones y Sintetizador Lento y Calmado) -->
     <script>
-        // Inicializar contexto de audio al primer clic del usuario
         let audioCtx = null;
 
         function initAudio() {
@@ -222,45 +248,44 @@
             osc.stop(audioCtx.currentTime + 0.08);
         }
 
-        // Sonido de Inicio de Sesión: Sintetizador Electrónico Ascendente (Synth Riser)
+        // Sintetizador Electrónico de Transición Abierta (Más lento, calmado y ambiental)
         function playLoginRiserEffect() {
             initAudio();
             if (!audioCtx) return;
 
             let now = audioCtx.currentTime;
 
-            // Oscilador principal de subida (Sawtooth para cuerpo electrónico)
+            // Onda suave (sine/triangle combinados para un ambiente espacial y calmado)
             let osc = audioCtx.createOscillator();
             let gain = audioCtx.createGain();
             let filter = audioCtx.createBiquadFilter();
 
-            osc.type = 'sawtooth';
-            // Frecuencia inicial grave que asciende rápidamente de forma electrónica
-            osc.frequency.setValueAtTime(150, now);
-            osc.frequency.exponentialRampToValueAtTime(1200, now + 1.2);
+            osc.type = 'triangle';
+            // Transición mucho más pausada y armónica (subida lenta)
+            osc.frequency.setValueAtTime(120, now);
+            osc.frequency.exponentialRampToValueAtTime(650, now + 2.2);
 
-            // Filtro dinámico que se abre conforme sube el tono
+            // Filtro con apertura gradual muy suave
             filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(400, now);
-            filter.frequency.exponentialRampToValueAtTime(4000, now + 1.2);
+            filter.frequency.setValueAtTime(250, now);
+            filter.frequency.exponentialRampToValueAtTime(2200, now + 2.2);
 
-            // Control de volumen (Fade in rápido, mantenimiento y corte limpio)
-            gain.gain.setValueAtTime(0.01, now);
-            gain.gain.linearRampToValueAtTime(0.15, now + 0.2);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+            // Volumen con un inicio y cierre muy delicados y envolventes
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.linearRampToValueAtTime(0.12, now + 0.6);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
 
-            // Conexiones del circuito de audio
             osc.connect(filter);
             filter.connect(gain);
             gain.connect(audioCtx.destination);
 
             osc.start(now);
-            osc.stop(now + 1.4);
+            osc.stop(now + 2.5);
 
-            // Pequeño aviso visual o de consola al activar el acceso
+            // Mensaje de bienvenida oficial tras terminar la transición
             setTimeout(() => {
-                alert("⚡ Acceso S.P.K concedido. ¡Bienvenido a DumbWeb!");
-            }, 1000);
+                alert("¡Bienvenido a la DumbWeb!");
+            }, 1800);
         }
     </script>
 
