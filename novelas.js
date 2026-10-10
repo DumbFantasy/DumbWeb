@@ -1,4 +1,4 @@
-<!-- SECCIÓN DE NOVELAS / LIBRERÍA CON PORTADAS Y ENLACES EXTERNOS -->
+<!-- SECCIÓN DE NOVELAS / LIBRERÍA CON PORTADAS Y ACCESO DIRECTO -->
 <section class="w-full max-w-5xl mx-auto py-8 px-4">
     <div class="text-center mb-10">
         <span class="px-4 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full uppercase tracking-widest">
@@ -8,14 +8,14 @@
             Novelas <span class="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Oficiales</span>
         </h2>
         <p class="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
-            Explora los archivos clasificados. Haz clic en la portada de cada libro para abrir el documento completo y leer la historia sin censura.
+            Explora los archivos clasificados. Haz clic en la portada de cada libro para abrir el lector oficial y sumergirte en la historia.
         </p>
     </div>
 
     <!-- Grid de Libros / Portadas -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <!-- LIBRO 1 (CON TU ENLACE INTEGRADO) -->
+        <!-- LIBRO 1 (CONECTADO A LA PÁGINA INTERNA) -->
         <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
             <div>
                 <!-- Contenedor de la Portada -->
@@ -33,17 +33,16 @@
                     El descubrimiento de la Andromedita, el inicio de las investigaciones de Elias Varnet y el despertar de una anomalía cósmica.
                 </p>
             </div>
-            <!-- Botón Enlace a Google Drive -->
-            <a href="https://docs.google.com/document/d/1JQAf7fMpbLzZtgcAC3EbIC0iDAvpH4sQ/edit?usp=sharing&ouid=100873769170710572414&rtpof=true&sd=true" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
-                <span>Leer en Archivo (Word)</span>
-                <span>📂</span>
+            <!-- Botón de Acceso Directo a libro1.html -->
+            <a href="libro1.html" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
+                <span>Leer Novela Completa</span>
+                <span>📖</span>
             </a>
         </div>
 
-        <!-- LIBRO 2 -->
+        <!-- LIBRO 2 (Próximamente) -->
         <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
             <div>
-                <!-- Contenedor de la Portada -->
                 <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-slate-950 border border-purple-900/50 shadow-inner">
                     <img src="URL_PORTADA_LIBRO_2.jpg" alt="Portada Proyecto S.P.K: Umbranova" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
@@ -58,17 +57,15 @@
                     Las sombras se extienden sobre Ciudad Seltsamer mientras nuevos peligros, secretos del pasado y facciones ocultas entran en juego.
                 </p>
             </div>
-            <!-- Botón Enlace a Word / Archivo Externo -->
-            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_2.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
-                <span>Leer en Archivo (Word)</span>
-                <span>📂</span>
+            <a href="#" class="w-full py-3.5 bg-slate-800 text-slate-400 text-center font-extrabold rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2" onclick="return false;">
+                <span>Próximamente</span>
+                <span>🔒</span>
             </a>
         </div>
 
-        <!-- LIBRO 3 -->
+        <!-- LIBRO 3 (Próximamente) -->
         <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-transform hover:-translate-y-2">
             <div>
-                <!-- Contenedor de la Portada -->
                 <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-slate-950 border border-purple-900/50 shadow-inner">
                     <img src="URL_PORTADA_LIBRO_3.jpg" alt="Portada Luminiscente" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
@@ -83,12 +80,12 @@
                     El clímax de la saga. El enfrentamiento definitivo, los giros inesperados con Varnet y el destino final del espikos al descubierto.
                 </p>
             </div>
-            <!-- Botón Enlace a Word / Archivo Externo -->
-            <a href="TU_ENLACE_O_ARCHIVO_LIBRO_3.docx" target="_blank" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-purple-600/30 transition-all flex items-center justify-center space-x-2">
-                <span>Leer en Archivo (Word)</span>
-                <span>📂</span>
+            <a href="#" class="w-full py-3.5 bg-slate-800 text-slate-400 text-center font-extrabold rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2" onclick="return false;">
+                <span>Próximamente</span>
+                <span>🔒</span>
             </a>
         </div>
 
     </div>
 </section>
+       
