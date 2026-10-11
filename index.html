@@ -87,7 +87,6 @@
                 <!-- LIBRO 1 -->
                 <div class="bg-zinc-900/90 border border-orange-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2">
                     <div>
-                        <!-- Portada -->
                         <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-black border border-orange-500/20 shadow-inner">
                             <img src="URL_PORTADA_LIBRO_1.jpg" alt="Portada Proyecto S.P.K: La sombra que trajo luz" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
@@ -102,14 +101,13 @@
                             El descubrimiento de la Andromedita, las investigaciones de Elias Varnet y el origen del conflicto con Spike.
                         </p>
                     </div>
-                    <!-- Botón de Lectura -->
                     <a href="libro1.html" onclick="playButtonClickSound()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center space-x-2">
                         <span>Leer Novela</span>
                         <span>📖</span>
                     </a>
                 </div>
 
-                <!-- LIBRO 2 -->
+                <!-- LIBRO 2 (YA CONECTADO) -->
                 <div class="bg-zinc-900/90 border border-pink-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2">
                     <div>
                         <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-black border border-pink-500/20 shadow-inner">
@@ -123,12 +121,12 @@
                             Proyecto S.P.K: Umbranova
                         </h3>
                         <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                            Las sombras se extienden sobre Ciudad Seltsamer mientras nuevos peligros y secretos entran en juego.
+                            Las sombras se extienden sobre Ciudad Seltsamer mientras nuevos peligros, Cenrix y la transformación Umbranova entran en juego.
                         </p>
                     </div>
-                    <a href="#" class="w-full py-3.5 bg-zinc-800 text-slate-500 text-center font-extrabold rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2" onclick="return false;">
-                        <span>Próximamente</span>
-                        <span>🔒</span>
+                    <a href="libro2.html" onclick="playButtonClickSound()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center space-x-2">
+                        <span>Leer Novela</span>
+                        <span>📖</span>
                     </a>
                 </div>
 
@@ -172,7 +170,7 @@
                 </p>
             </div>
 
-            <!-- Grid de Fichas (Spike, Varnet, Skriker, Andromedita) -->
+            <!-- Grid de Fichas -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Spike -->
                 <div class="bg-zinc-900/80 border border-orange-500/20 rounded-3xl p-8 backdrop-blur-xl">
@@ -289,7 +287,6 @@
             welcomeScreen.style.opacity = '0';
             setTimeout(() => {
                 welcomeScreen.style.display = 'none';
-                // Mostrar alerta de bienvenida oficial
                 alert("¡Bienvenido a la DumbWeb!");
             }, 700);
         }
