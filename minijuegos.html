@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spike Beat Festival - Minijuegos DumbWeb</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glow-orange-magenta {
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.3);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.4);
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(500px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-500 selection:text-white overflow-x-hidden">
+
+    <!-- MODAL DE SELECCIÓN DE DISPOSITIVO (PRIMER PASO) -->
+    <div id="device-modal" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-4">
+        <div class="max-w-md w-full bg-zinc-900 border border-orange-500/40 rounded-3xl p-8 text-center glow-orange-magenta backdrop-blur-xl">
+            <span class="text-3xl font-black tracking-widest bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent inline-block mb-3">
+                🎮 Spike Beat Festival
+            </span>
+            <h2 class="text-2xl font-black text-white mb-2">Selecciona tu Dispositivo</h2>
+            <p class="text-slate-400 text-xs mb-8">Esto adaptará los controles del juego de ritmo automáticamente para que disfrutes al máximo.</p>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="setDevice('pc')" class="py-5 bg-zinc-800 hover:bg-orange-600 border border-zinc-700 hover:border-orange-500 rounded-2xl font-extrabold text-sm text-white transition-all flex flex-col items-center space-y-2">
+                    <span class="text-2xl">💻</span>
+                    <span>Computadora</span>
+                    <span class="text-[10px] text-slate-400 font-normal">Teclas: A, S, K, L</span>
+                </button>
+                <button onclick="setDevice('mobile')" class="py-5 bg-zinc-800 hover:bg-pink-600 border border-zinc-700 hover:border-pink-500 rounded-2xl font-extrabold text-sm text-white transition-all flex flex-col items-center space-y-2">
+                    <span class="text-2xl">📱</span>
+                    <span>Móvil / Tablet</span>
+                    <span class="text-[10px] text-slate-400 font-normal">Botones táctiles</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENCABEZADO -->
+    <header class="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-orange-500/30">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="inline-flex items-center space-x-2 text-orange-400 hover:text-orange-300 font-bold text-sm">
+                <span>← Volver a DumbWeb</span>
+            </a>
+            <div class="flex items-center space-x-3 text-xs">
+                <span class="text-slate-400">Jugador:</span>
+                <span id="nav-username" class="font-bold text-pink-400">Invitado</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL / SELECCIÓN DE CANCIONES -->
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
+        
+        <div class="text-center mb-10">
+            <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
+                Modo Arcade / Ritmo
+            </span>
+            <h1 class="text-3xl md:text-5xl font-black text-white mt-3 uppercase tracking-tight">
+                Playlist Oficial de <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Spike</span>
+            </h1>
+            <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">
+                Elige una canción para iniciar el juego de ritmo dinámico. ¡Demuestra tus reflejos!
+            </p>
+        </div>
+
+        <!-- LISTA DE CANCIONES DE LA PLAYLIST -->
+        <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+            <!-- Canción 1 -->
+            <div onclick="selectSong('Don\'t Stop Me Now', 'Queen')" class="bg-zinc-900/80 border border-zinc-800 hover:border-orange-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">Don't Stop Me Now</h3>
+                        <p class="text-xs text-slate-400">Queen • 3:38</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-orange-500/20 text-orange-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 2 -->
+            <div onclick="selectSong('El hijo de Hernández', 'El Cuarteto De Nos')" class="bg-zinc-900/80 border border-zinc-800 hover:border-pink-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">El hijo de Hernández</h3>
+                        <p class="text-xs text-slate-400">El Cuarteto De Nos • 3:59</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-pink-500/20 text-pink-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 3 -->
+            <div onclick="selectSong('Could Have Been Me', 'The Struts')" class="bg-zinc-900/80 border border-zinc-800 hover:border-fuchsia-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">Could Have Been Me</h3>
+                        <p class="text-xs text-slate-400">The Struts • 3:08</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-fuchsia-500/20 text-fuchsia-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 4 -->
+            <div onclick="selectSong('American Idiot', 'Green Day')" class="bg-zinc-900/80 border border-zinc-800 hover:border-orange-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">American Idiot</h3>
+                        <p class="text-xs text-slate-400">Green Day • 2:56</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-orange-500/20 text-orange-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 5 -->
+            <div onclick="selectSong('Get Lucky', 'Daft Punk, Pharrell Williams')" class="bg-zinc-900/80 border border-zinc-800 hover:border-pink-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">Get Lucky</h3>
+                        <p class="text-xs text-slate-400">Daft Punk ft. Pharrell Williams • 6:10</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-pink-500/20 text-pink-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 6 -->
+            <div onclick="selectSong('Beautiful Day', 'U2')" class="bg-zinc-900/80 border border-zinc-800 hover:border-fuchsia-500/60 rounded-2xl p-5 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-400 font-bold">🎵</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-base">Beautiful Day</h3>
+                        <p class="text-xs text-slate-400">U2 • 4:08</p>
+                    </div>
+                </div>
+                <span class="px-4 py-2 bg-fuchsia-500/20 text-fuchsia-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+        </div>
+
+        <!-- ÁREA DEL JUEGO DE RITMO (OCULTA HASTA SELECCIONAR CANCIÓN) -->
+        <div id="game-arena" class="hidden bg-zinc-950 border border-orange-500/50 rounded-3xl p-6 glow-orange-magenta relative overflow-hidden">
+            <div class="flex items-center justify-between mb-6 border-b border-zinc-800 pb-4">
+                <div>
+                    <h3 id="current-song-title" class="text-xl font-black text-white">Título de Canción</h3>
+                    <p id="current-song-artist" class="text-xs text-orange-400">Artista</p>
+                </div>
+                <div class="flex items-center space-x-6 text-sm font-mono">
+                    <div>Puntos: <span id="score-val" class="text-emerald-400 font-bold">0</span></div>
+                    <div>Combo: <span id="combo-val" class="text-pink-400 font-bold">0x</span></div>
+                    <button onclick="exitGame()" class="px-3 py-1 bg-red-600/30 border border-red-500 text-red-400 text-xs rounded-lg hover:bg-red-600 hover:text-white transition-colors">Salir</button>
+                </div>
+            </div>
+
+            <!-- PISTA DE NOTAS (4 CARRILES) -->
+            <div id="track-container" class="relative h-[400px] bg-black/80 border-x border-zinc-800 max-w-md mx-auto flex justify-around overflow-hidden rounded-2xl">
+                <!-- Carril 1 -->
+                <div class="w-1/4 border-r border-zinc-900 relative h-full flex flex-col justify-end pb-4 items-center">
+                    <div id="lane-0-target" class="w-14 h-14 rounded-xl border-2 border-orange-500/50 bg-orange-500/10 flex items-center justify-center text-xs font-bold text-orange-400">A / 1</div>
+                </div>
+                <!-- Carril 2 -->
+                <div class="w-1/4 border-r border-zinc-900 relative h-full flex flex-col justify-end pb-4 items-center">
+                    <div id="lane-1-target" class="w-14 h-14 rounded-xl border-2 border-pink-500/50 bg-pink-500/10 flex items-center justify-center text-xs font-bold text-pink-400">S / 2</div>
+                </div>
+                <!-- Carril 3 -->
+                <div class="w-1/4 border-r border-zinc-900 relative h-full flex flex-col justify-end pb-4 items-center">
+                    <div id="lane-2-target" class="w-14 h-14 rounded-xl border-2 border-fuchsia-500/50 bg-fuchsia-500/10 flex items-center justify-center text-xs font-bold text-fuchsia-400">K / 3</div>
+                </div>
+                <!-- Carril 4 -->
+                <div class="relative h-full flex flex-col justify-end pb-4 items-center w-1/4">
+                    <div id="lane-3-target" class="w-14 h-14 rounded-xl border-2 border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-xs font-bold text-amber-400">L / 4</div>
+                </div>
+            </div>
+
+            <!-- CONTROLES TÁCTILES (SOLO MÓVIL) -->
+            <div id="mobile-controls" class="hidden grid grid-cols-4 gap-2 mt-4 max-w-md mx-auto">
+                <button onclick="handleHit(0)" class="py-4 bg-orange-600/30 border border-orange-500 text-orange-300 font-extrabold rounded-xl active:bg-orange-600 active:text-white">1</button>
+                <button onclick="handleHit(1)" class="py-4 bg-pink-600/30 border border-pink-500 text-pink-300 font-extrabold rounded-xl active:bg-pink-600 active:text-white">2</button>
+                <button onclick="handleHit(2)" class="py-4 bg-fuchsia-600/30 border border-fuchsia-500 text-fuchsia-300 font-extrabold rounded-xl active:bg-fuchsia-600 active:text-white">3</button>
+                <button onclick="handleHit(3)" class="py-4 bg-amber-600/30 border border-amber-500 text-amber-300 font-extrabold rounded-xl active:bg-amber-600 active:text-white">4</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT DEL JUEGO Y GESTIÓN -->
+    <script>
+        let selectedDevice = 'pc';
+        let currentScore = 0;
+        let currentCombo = 0;
+        let gameInterval = null;
+        let activeNotes = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('dumbweb_user');
+            if (user) {
+                document.getElementById('nav-username').innerText = user;
+            }
+        });
+
+        function setDevice(device) {
+            selectedDevice = device;
+            document.getElementById('device-modal').style.display = 'none';
+            if (device === 'mobile') {
+                document.getElementById('mobile-controls').classList.remove('hidden');
+            }
+        }
+
+        function selectSong(title, artist) {
+            document.getElementById('song-list').classList.add('hidden');
+            document.getElementById('game-arena').classList.remove('hidden');
+            document.getElementById('current-song-title').innerText = title;
+            document.getElementById('current-song-artist').innerText = artist;
+            
+            currentScore = 0;
+            currentCombo = 0;
+            updateHUD();
+            startSpawner();
+        }
+
+        function exitGame() {
+            clearInterval(gameInterval);
+            document.getElementById('game-arena').classList.add('hidden');
+            document.getElementById('song-list').classList.remove('hidden');
+            // Limpiar notas activas
+            document.querySelectorAll('.game-note').forEach(n => n.remove());
+            activeNotes = [];
+        }
+
+        function updateHUD() {
+            document.getElementById('score-val').innerText = currentScore;
+            document.getElementById('combo-val').innerText = currentCombo + 'x';
+        }
+
+        // Generador automático de notas rítmicas simuladas
+        function startSpawner() {
+            const track = document.getElementById('track-container');
+            
+            gameInterval = setInterval(() => {
+                let lane = Math.floor(Math.random() * 4);
+                let note = document.createElement('div');
+                note.className = `absolute w-12 h-6 rounded-lg font-bold flex items-center justify-center text-[10px] text-white game-note`;
+                
+                const colors = ['bg-orange-500', 'bg-pink-500', 'bg-fuchsia-500', 'bg-amber-500'];
+                note.classList.add(colors[lane]);
+                note.style.left = (lane * 25 + 6) + '%';
+                note.style.top = '0px';
+                note.dataset.lane = lane;
+                
+                track.appendChild(note);
+                activeNotes.push({ element: note, lane: lane, y: 0 });
+
+                // Animar caída de la nota
+                let fallAnim = setInterval(() => {
+                    let top = parseInt(note.style.top || 0);
+                    if (top > 350) { // Fuera de rango
+                        clearInterval(fallAnim);
+                        note.remove();
+                        activeNotes = activeNotes.filter(n => n.element !== note);
+                        currentCombo = 0;
+                        updateHUD();
+                    } else {
+                        top += 4;
+                        note.style.top = top + 'px';
+                    }
+                }, 20);
+
+            }, 750); // Frecuencia de aparición de notas
+        }
+
+        // Controles de Teclado (PC)
+        window.addEventListener('keydown', (e) => {
+            if (selectedDevice !== 'pc') return;
+            let key = e.key.toLowerCase();
+            if (key === 'a' || key === '1') handleHit(0);
+            if (key === 's' || key === '2') handleHit(1);
+            if (key === 'k' || key === '3') handleHit(2);
+            if (key === 'l' || key === '4') handleHit(3);
+        });
+
+        function handleHit(lane) {
+            // Buscar nota cercana en el carril correspondiente
+            let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 280 && parseInt(n.element.style.top) <= 360);
+            
+            if (hitIndex !== -1) {
+                // ¡Acertaste!
+                let noteObj = activeNotes[hitIndex];
+                noteObj.element.remove();
+                activeNotes.splice(hitIndex, 1);
+                
+                currentScore += 100 * (currentCombo + 1);
+                currentCombo++;
+                updateHUD();
+
+                // Guardar puntuación alta en localStorage
+                const user = localStorage.getItem('dumbweb_user') || 'Invitado';
+                let highScore = localStorage.getItem('dumbweb_highscore') || 0;
+                if (currentScore > highScore) {
+                    localStorage.setItem('dumbweb_highscore', currentScore);
+                }
+            } else {
+                // Fallo / Nota fantasma
+                currentCombo = 0;
+                updateHUD();
+            }
+        }
+    </script>
+</body>
+</html>
