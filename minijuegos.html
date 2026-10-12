@@ -53,33 +53,83 @@
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL / SELECCIÓN DE CANCIONES -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
         
         <div class="text-center mb-8">
             <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
-                Modo Arcade / Ritmo
+                Modo Arcade / Ritmo con Spotify
             </span>
             <h1 class="text-3xl md:text-5xl font-black text-white mt-3 uppercase tracking-tight">
                 Playlist Oficial de <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Spike</span>
             </h1>
             <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">
-                Elige una canción de la saga o carga tu propio archivo MP3 para generar el nivel dinámico sincronizado.
+                Reproduce la música en el widget de Spotify abajo y selecciona una canción para empezar el desafío de ritmo.
             </p>
+        </div>
 
-            <!-- OPCIÓN PARA SUBIR MP3 PROPIO -->
-            <div class="mt-6 inline-block bg-zinc-900 border border-orange-500/30 rounded-2xl p-4 text-center">
-                <label class="block text-xs font-bold text-slate-300 mb-2">📁 ¿Tienes la canción en MP3 en tu dispositivo?</label>
-                <input type="file" id="custom-audio-input" accept="audio/*" onchange="loadCustomAudio(event)" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-extrabold file:bg-orange-500 file:text-white hover:file:bg-orange-400 cursor-pointer">
+        <!-- WIDGET DE SPOTIFY INTEGRADO -->
+        <div class="mb-10 max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-4 glow-orange-magenta">
+            <div class="text-xs font-bold text-orange-400 mb-2 flex items-center justify-between">
+                <span>🎧 Reproductor Oficial Spotify</span>
+                <span class="text-slate-400 text-[10px]">Dale Play antes de jugar</span>
+            </div>
+            <!-- Aquí puedes cambiar el enlace del src por el de tu playlist pública de Spotify -->
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <!-- LISTA DE CANCIONES -->
+        <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 max-h-[500px] overflow-y-auto pr-2">
+            <!-- Canción 1 -->
+            <div onclick="selectSong('Don\'t Stop Me Now', 'Queen')" class="bg-zinc-900/80 border border-zinc-800 hover:border-orange-500/60 rounded-2xl p-4 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-bold text-xs">1</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-sm">Don't Stop Me Now</h3>
+                        <p class="text-xs text-slate-400">Queen • 3:38</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1.5 bg-orange-500/20 text-orange-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 2 -->
+            <div onclick="selectSong('El hijo de Hernández', 'El Cuarteto De Nos')" class="bg-zinc-900/80 border border-zinc-800 hover:border-pink-500/60 rounded-2xl p-4 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-400 font-bold text-xs">2</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-sm">El hijo de Hernández</h3>
+                        <p class="text-xs text-slate-400">El Cuarteto De Nos • 3:59</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1.5 bg-pink-500/20 text-pink-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 3 -->
+            <div onclick="selectSong('Could Have Been Me', 'The Struts')" class="bg-zinc-900/80 border border-zinc-800 hover:border-fuchsia-500/60 rounded-2xl p-4 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-400 font-bold text-xs">3</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-sm">Could Have Been Me</h3>
+                        <p class="text-xs text-slate-400">The Struts • 3:08</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1.5 bg-fuchsia-500/20 text-fuchsia-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
+            </div>
+
+            <!-- Canción 4 -->
+            <div onclick="selectSong('American Idiot', 'Green Day')" class="bg-zinc-900/80 border border-zinc-800 hover:border-orange-500/60 rounded-2xl p-4 glow-card cursor-pointer flex items-center justify-between transition-all">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-bold text-xs">4</div>
+                    <div>
+                        <h3 class="font-extrabold text-white text-sm">American Idiot</h3>
+                        <p class="text-xs text-slate-400">Green Day • 2:56</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1.5 bg-orange-500/20 text-orange-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
             </div>
         </div>
 
-        <!-- LISTA COMPLETA DE CANCIONES DE LA PLAYLIST -->
-        <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 max-h-[600px] overflow-y-auto pr-2">
-            <!-- Las canciones se generan automáticamente mediante JavaScript desde la lista completa -->
-        </div>
-
-        <!-- ÁREA DEL JUEGO DE RITMO (OCULTA HASTA INICIAR) -->
+        <!-- ÁREA DEL JUEGO DE RITMO -->
         <div id="game-arena" class="hidden bg-zinc-950 border border-orange-500/50 rounded-3xl p-6 glow-orange-magenta relative overflow-hidden">
             <div class="flex items-center justify-between mb-4 border-b border-zinc-800 pb-4">
                 <div>
@@ -93,11 +143,8 @@
                 </div>
             </div>
 
-            <!-- REPRODUCTOR DE AUDIO REAL -->
-            <audio id="audio-player" class="hidden" crossorigin="anonymous"></audio>
-
             <!-- PISTA DE NOTAS (4 CARRILES) -->
-            <div id="track-container" class="relative h-[420px] bg-black/90 border-x border-zinc-800 max-w-md mx-auto flex justify-around overflow-hidden rounded-2xl">
+            <div id="track-container" class="relative h-[400px] bg-black/90 border-x border-zinc-800 max-w-md mx-auto flex justify-around overflow-hidden rounded-2xl">
                 <!-- Carril 1 -->
                 <div class="w-1/4 border-r border-zinc-900 relative h-full flex flex-col justify-end pb-4 items-center">
                     <div id="lane-0-target" class="w-14 h-14 rounded-xl border-2 border-orange-500/50 bg-orange-500/10 flex items-center justify-center text-xs font-bold text-orange-400">A / 1</div>
@@ -116,7 +163,7 @@
                 </div>
             </div>
 
-            <!-- CONTROLES TÁCTILES (SOLO MÓVIL) -->
+            <!-- CONTROLES TÁCTILES (MÓVIL) -->
             <div id="mobile-controls" class="hidden grid grid-cols-4 gap-2 mt-4 max-w-md mx-auto">
                 <button onclick="handleHit(0)" class="py-4 bg-orange-600/30 border border-orange-500 text-orange-300 font-extrabold rounded-xl active:bg-orange-600 active:text-white">1</button>
                 <button onclick="handleHit(1)" class="py-4 bg-pink-600/30 border border-pink-500 text-pink-300 font-extrabold rounded-xl active:bg-pink-600 active:text-white">2</button>
@@ -127,88 +174,20 @@
 
     </main>
 
-    <!-- SCRIPT DEL JUEGO Y ANALIZADOR DE RITMO FFT -->
+    <!-- SCRIPT DEL JUEGO -->
     <script>
-        // LISTA COMPLETA DE CANCIONES DE LA PLAYLIST DE SPIKE
-        const playlistSongs = [
-            { title: "Don't Stop Me Now", artist: "Queen", duration: "3:38", src: "musica/dont_stop_me_now.mp3" },
-            { title: "El hijo de Hernández", artist: "El Cuarteto De Nos", duration: "3:59", src: "musica/el_hijo_de_hernandez.mp3" },
-            { title: "Could Have Been Me", artist: "The Struts", duration: "3:08", src: "musica/could_have_been_me.mp3" },
-            { title: "Bang Bang", artist: "K'NAAN, Adam Levine", duration: "3:03", src: "musica/bang_bang.mp3" },
-            { title: "Galvanize", artist: "The Chemical Brothers", duration: "6:34", src: "musica/galvanize.mp3" },
-            { title: "Get Lucky", artist: "Daft Punk, Pharrell Williams", duration: "6:10", src: "musica/get_lucky.mp3" },
-            { title: "Beautiful Day", artist: "U2", duration: "4:08", src: "musica/beautiful_day.mp3" },
-            { title: "this is what falling in love feels like", artist: "JVKE", duration: "2:00", src: "musica/jvke_love.mp3" },
-            { title: "Im Sorry Mom", artist: "Marino", duration: "1:47", src: "musica/im_sorry_mom.mp3" },
-            { title: "Imitadora", artist: "Romeo Santos", duration: "3:55", src: "musica/imitadora.mp3" },
-            { title: "Intruso", artist: "Enjambre", duration: "3:29", src: "musica/intruso.mp3" },
-            { title: "Cambiante", artist: "Enjambre", duration: "3:10", src: "musica/cambiante.mp3" },
-            { title: "Time to Pretend", artist: "MGMT", duration: "4:22", src: "musica/time_to_pretend.mp3" },
-            { title: "Hoy me voy al Sol", artist: "Bizarrap, Milo j", duration: "3:54", src: "musica/hoy_me_voy_al_sol.mp3" },
-            { title: "Cicada", artist: "Good Kid", duration: "2:47", src: "musica/cicada.mp3" },
-            { title: "Lo malo de ser bueno", artist: "El Cuarteto De Nos", duration: "4:02", src: "musica/lo_malo_de_ser_bueno.mp3" },
-            { title: "Ride The Lightning", artist: "Metallica", duration: "6:37", src: "musica/ride_the_lightning.mp3" },
-            { title: "American Idiot", artist: "Green Day", duration: "2:56", src: "musica/american_idiot.mp3" },
-            { title: "Fuel", artist: "Metallica", duration: "4:30", src: "musica/fuel.mp3" },
-            { title: "No Tengo Hambre, Tengo Ansiedad", artist: "Alan Sutton", duration: "2:14", src: "musica/no_tengo_hambre.mp3" },
-            { title: "Sh-Boom", artist: "The Chords", duration: "2:27", src: "musica/sh_boom.mp3" },
-            { title: "I'm Still Standing", artist: "Taron Egerton", duration: "3:58", src: "musica/im_still_standing.mp3" },
-            { title: "Mr. Blue Sky", artist: "Electric Light Orchestra", duration: "5:04", src: "musica/mr_blue_sky.mp3" },
-            { title: "Bad", artist: "Michael Jackson", duration: "4:07", src: "musica/bad.mp3" },
-            { title: "Creep", artist: "Radiohead", duration: "3:59", src: "musica/creep.mp3" },
-            { title: "Holiday", artist: "Green Day", duration: "3:53", src: "musica/holiday.mp3" },
-            { title: "GOSSIP", artist: "Måneskin, Tom Morello", duration: "2:48", src: "musica/gossip.mp3" },
-            { title: "Best Day Of My Life", artist: "American Authors", duration: "3:14", src: "musica/best_day.mp3" },
-            { title: "this is what space feels like", artist: "JVKE", duration: "3:03", src: "musica/space_feels_like.mp3" },
-            { title: "Holding Out for a Hero", artist: "Bonnie Tyler", duration: "5:48", src: "musica/holding_out_for_a_hero.mp3" },
-            { title: "Dream Sweet in Sea Major", artist: "Miracle Musical", duration: "7:00", src: "musica/dream_sweet.mp3" },
-            { title: "I Hear a Symphony", artist: "Cody Fry", duration: "3:05", src: "musica/i_hear_a_symphony.mp3" },
-            { title: "No Quiero Ser Normal", artist: "El Cuarteto De Nos", duration: "3:39", src: "musica/no_quiero_ser_normal.mp3" },
-            { title: "My Way Of Life", artist: "Frank Sinatra", duration: "3:07", src: "musica/my_way_of_life.mp3" }
-        ];
-
         let selectedDevice = 'pc';
         let currentScore = 0;
         let currentCombo = 0;
+        let gameInterval = null;
         let activeNotes = [];
-        
-        // Web Audio API y Analizador FFT
-        let audioCtx = null;
-        let analyser = null;
-        let audioSource = null;
-        let animFrameId = null;
-        let lastBeatTime = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
             const user = localStorage.getItem('dumbweb_user');
             if (user) {
                 document.getElementById('nav-username').innerText = user;
             }
-            renderSongList();
         });
-
-        function renderSongList() {
-            const listContainer = document.getElementById('song-list');
-            listContainer.innerHTML = '';
-
-            playlistSongs.forEach((song, idx) => {
-                const card = document.createElement('div');
-                card.className = "bg-zinc-900/80 border border-zinc-800 hover:border-orange-500/60 rounded-2xl p-4 glow-card cursor-pointer flex items-center justify-between transition-all";
-                card.onclick = () => startSong(song);
-
-                card.innerHTML = `
-                    <div class="flex items-center space-x-4">
-                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-400 font-bold text-xs">${idx + 1}</div>
-                        <div>
-                            <h3 class="font-extrabold text-white text-sm">${song.title}</h3>
-                            <p class="text-xs text-slate-400">${song.artist} • ${song.duration}</p>
-                        </div>
-                    </div>
-                    <span class="px-3 py-1.5 bg-orange-500/20 text-orange-400 font-bold text-xs rounded-xl">Jugar 🎸</span>
-                `;
-                listContainer.appendChild(card);
-            });
-        }
 
         function setDevice(device) {
             selectedDevice = device;
@@ -218,123 +197,20 @@
             }
         }
 
-        function loadCustomAudio(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const url = URL.createObjectURL(file);
-            const customSong = {
-                title: file.name.replace(/\.[^/.]+$/, ""),
-                artist: "Archivo MP3 Local",
-                src: url
-            };
-            startSong(customSong);
-        }
-
-        function startSong(song) {
+        function selectSong(title, artist) {
             document.getElementById('song-list').classList.add('hidden');
             document.getElementById('game-arena').classList.remove('hidden');
-            document.getElementById('current-song-title').innerText = song.title;
-            document.getElementById('current-song-artist').innerText = song.artist;
-
+            document.getElementById('current-song-title').innerText = title;
+            document.getElementById('current-song-artist').innerText = artist;
+            
             currentScore = 0;
             currentCombo = 0;
             updateHUD();
-
-            const player = document.getElementById('audio-player');
-            player.src = song.src;
-
-            // Inicializar Audio Context y Analizador FFT
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 256;
-                audioSource = audioCtx.createMediaElementSource(player);
-                audioSource.connect(analyser);
-                analyser.connect(audioCtx.destination);
-            }
-
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            player.play().catch(err => {
-                console.log("Para escuchar la música, sube los MP3 a la carpeta 'musica/' o usa el selector de archivos locales.");
-            });
-
-            // Iniciar bucle de análisis de ritmo FFT
-            analyzeBeatLoop();
-        }
-
-        // ALGORITMO FFT PARA DETECTAR RITMO Y GENERAR NOTAS COORDINADAS
-        function analyzeBeatLoop() {
-            if (!analyser) return;
-
-            const dataArray = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(dataArray);
-
-            // Analizar la frecuencia grave (Grave / Bombo / Batería)
-            let bassSum = 0;
-            for (let i = 0; i < 10; i++) {
-                bassSum += dataArray[i];
-            }
-            let bassAvg = bassSum / 10;
-
-            const now = Date.now();
-            // Umbral de pico de energía para crear una nota sincronizada
-            if (bassAvg > 195 && (now - lastBeatTime) > 320) {
-                lastBeatTime = now;
-                
-                // Determinar el carril (0 a 3) según la frecuencia dominante
-                let midAvg = dataArray[20];
-                let highAvg = dataArray[50];
-                let lane = 0;
-
-                if (bassAvg > 220) lane = 0; // Grave potente
-                else if (midAvg > 150) lane = 1; // Medios
-                else if (highAvg > 120) lane = 2; // Agudos
-                else lane = 3;
-
-                spawnNote(lane);
-            }
-
-            animFrameId = requestAnimationFrame(analyzeBeatLoop);
-        }
-
-        function spawnNote(lane) {
-            const track = document.getElementById('track-container');
-            let note = document.createElement('div');
-            note.className = `absolute w-12 h-6 rounded-lg font-bold flex items-center justify-center text-[10px] text-white game-note`;
-            
-            const colors = ['bg-orange-500', 'bg-pink-500', 'bg-fuchsia-500', 'bg-amber-500'];
-            note.classList.add(colors[lane]);
-            note.style.left = (lane * 25 + 6) + '%';
-            note.style.top = '0px';
-            note.dataset.lane = lane;
-            
-            track.appendChild(note);
-            activeNotes.push({ element: note, lane: lane });
-
-            let fallAnim = setInterval(() => {
-                let top = parseInt(note.style.top || 0);
-                if (top > 370) {
-                    clearInterval(fallAnim);
-                    note.remove();
-                    activeNotes = activeNotes.filter(n => n.element !== note);
-                    currentCombo = 0;
-                    updateHUD();
-                } else {
-                    top += 5;
-                    note.style.top = top + 'px';
-                }
-            }, 16);
+            startSpawner();
         }
 
         function exitGame() {
-            if (animFrameId) cancelAnimationFrame(animFrameId);
-            const player = document.getElementById('audio-player');
-            player.pause();
-            
+            clearInterval(gameInterval);
             document.getElementById('game-arena').classList.add('hidden');
             document.getElementById('song-list').classList.remove('hidden');
             document.querySelectorAll('.game-note').forEach(n => n.remove());
@@ -346,7 +222,40 @@
             document.getElementById('combo-val').innerText = currentCombo + 'x';
         }
 
-        // CONTROLES TECLADO (PC)
+        function startSpawner() {
+            const track = document.getElementById('track-container');
+            
+            gameInterval = setInterval(() => {
+                let lane = Math.floor(Math.random() * 4);
+                let note = document.createElement('div');
+                note.className = `absolute w-12 h-6 rounded-lg font-bold flex items-center justify-center text-[10px] text-white game-note`;
+                
+                const colors = ['bg-orange-500', 'bg-pink-500', 'bg-fuchsia-500', 'bg-amber-500'];
+                note.classList.add(colors[lane]);
+                note.style.left = (lane * 25 + 6) + '%';
+                note.style.top = '0px';
+                note.dataset.lane = lane;
+                
+                track.appendChild(note);
+                activeNotes.push({ element: note, lane: lane });
+
+                let fallAnim = setInterval(() => {
+                    let top = parseInt(note.style.top || 0);
+                    if (top > 350) {
+                        clearInterval(fallAnim);
+                        note.remove();
+                        activeNotes = activeNotes.filter(n => n.element !== note);
+                        currentCombo = 0;
+                        updateHUD();
+                    } else {
+                        top += 4;
+                        note.style.top = top + 'px';
+                    }
+                }, 20);
+
+            }, 650); // Ritmo constante optimizado para acompañar la música de Spotify
+        }
+
         window.addEventListener('keydown', (e) => {
             if (selectedDevice !== 'pc') return;
             let key = e.key.toLowerCase();
@@ -357,7 +266,7 @@
         });
 
         function handleHit(lane) {
-            let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 300 && parseInt(n.element.style.top) <= 370);
+            let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 280 && parseInt(n.element.style.top) <= 360);
             
             if (hitIndex !== -1) {
                 let noteObj = activeNotes[hitIndex];
