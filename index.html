@@ -16,22 +16,36 @@
 </head>
 <body class="bg-black text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
-    <!-- PANTALLA DE BIENVENIDA / INICIO DE SESIÓN INICIAL -->
+    <!-- PANTALLA DE BIENVENIDA / INICIO DE SESIÓN -->
     <div id="welcome-screen" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-4 transition-opacity duration-700">
-        <div class="max-w-md w-full bg-zinc-900/90 border border-orange-500/40 rounded-3xl p-8 text-center glow-orange-magenta backdrop-blur-xl">
-            <span class="text-3xl font-black tracking-widest bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent inline-block mb-4">
+        <div class="max-w-md w-full bg-zinc-900/95 border border-orange-500/40 rounded-3xl p-8 text-center glow-orange-magenta backdrop-blur-xl">
+            <span class="text-3xl font-black tracking-widest bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent inline-block mb-2">
                 DW
             </span>
-            <h1 class="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">
+            <h1 id="welcome-title" class="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">
                 ¡Bienvenido a la <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">DumbWeb</span>!
             </h1>
-            <p class="text-slate-400 text-xs md:text-sm mb-8 leading-relaxed">
-                Plataforma central del universo de DumbFantasy y los archivos clasificados del Proyecto S.P.K.
+            <p id="welcome-sub" class="text-slate-400 text-xs md:text-sm mb-6 leading-relaxed">
+                Ingresa tu usuario y contraseña para guardar tu progreso en la plataforma y minijuegos.
             </p>
             
-            <!-- Botón de Iniciar Sesión / Entrar -->
-            <button onclick="handleLoginSession()" class="w-full py-4 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/30 transition-all transform hover:scale-[1.02]">
-                Iniciar Sesión
+            <!-- Formulario de Login -->
+            <form id="login-form" onsubmit="handleLoginSession(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Usuario</label>
+                    <input type="text" id="username-input" required placeholder="Tu nombre de usuario" class="w-full bg-black/60 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500 transition-colors">
+                </div>
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Contraseña</label>
+                    <input type="password" id="password-input" required placeholder="••••••••" class="w-full bg-black/60 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500 transition-colors">
+                </div>
+                <button type="submit" class="w-full py-4 mt-2 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/30 transition-all transform hover:scale-[1.02]">
+                    Iniciar Sesión / Entrar
+                </button>
+            </form>
+
+            <button id="logout-btn" onclick="logoutUser()" class="hidden w-full py-3 mt-4 bg-zinc-800 hover:bg-zinc-700 text-slate-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                Cerrar Sesión
             </button>
         </div>
     </div>
@@ -39,7 +53,6 @@
     <!-- Encabezado / Barra Superior DumbWeb -->
     <header class="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-orange-500/30">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <!-- Logo DW a la izquierda -->
             <a href="index.html" class="flex items-center space-x-2 group">
                 <span class="text-2xl md:text-3xl font-black tracking-widest bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent drop-shadow transition-transform group-hover:scale-105">
                     DW
@@ -48,6 +61,12 @@
                     DumbWeb
                 </span>
             </a>
+
+            <!-- Info Usuario Activo -->
+            <div id="user-badge" class="flex items-center space-x-3 bg-zinc-900 border border-orange-500/30 px-4 py-1.5 rounded-full text-xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="user-display-name" class="font-bold text-orange-400">Invitado</span>
+            </div>
         </div>
     </header>
 
@@ -63,7 +82,7 @@
                 Universos de <span class="bg-gradient-to-r from-orange-500 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent">DumbFantasy</span>
             </h1>
             <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                Bienvenido a la plataforma central. Explora las sagas, historias y archivos clasificados bajo la estética e identidad oficial de DumbWeb.
+                Bienvenido a la plataforma central. Explora las sagas, historias, juegos de ritmo y archivos clasificados bajo la estética e identidad oficial de DumbWeb.
             </p>
         </section>
 
@@ -76,30 +95,19 @@
                 <h2 class="text-3xl md:text-4xl font-black text-white mt-3 uppercase tracking-tight">
                     Novelas <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Disponibles</span>
                 </h2>
-                <p class="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                    Accede a las historias directamente desde nuestro lector interno web.
-                </p>
             </div>
 
-            <!-- Grid de Libros / Portadas -->
+            <!-- Grid de Libros -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
                 <!-- LIBRO 1 -->
                 <div class="bg-zinc-900/90 border border-orange-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2">
                     <div>
                         <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-black border border-orange-500/20 shadow-inner">
-                            <img src="URL_PORTADA_LIBRO_1.jpg" alt="Portada Proyecto S.P.K: La sombra que trajo luz" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
-                            <span class="absolute bottom-3 left-3 bg-orange-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
-                                Libro 1
-                            </span>
+                            <div class="w-full h-full bg-gradient-to-br from-orange-900/40 to-black flex items-center justify-center text-4xl">📖</div>
+                            <span class="absolute bottom-3 left-3 bg-orange-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg">Libro 1</span>
                         </div>
-                        <h3 class="text-xl font-black text-white mb-2 leading-snug">
-                            Proyecto S.P.K: La sombra que trajo luz
-                        </h3>
-                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                            El descubrimiento de la Andromedita, las investigaciones de Elias Varnet y el origen del conflicto con Spike.
-                        </p>
+                        <h3 class="text-xl font-black text-white mb-2 leading-snug">Proyecto S.P.K: La sombra que trajo luz</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">El descubrimiento de la Andromedita y el origen del conflicto con Spike.</p>
                     </div>
                     <a href="libro1.html" onclick="playButtonClickSound()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center space-x-2">
                         <span>Leer Novela</span>
@@ -111,18 +119,11 @@
                 <div class="bg-zinc-900/90 border border-pink-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2">
                     <div>
                         <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-black border border-pink-500/20 shadow-inner">
-                            <img src="URL_PORTADA_LIBRO_2.jpg" alt="Portada Proyecto S.P.K: Umbranova" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
-                            <span class="absolute bottom-3 left-3 bg-pink-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
-                                Libro 2
-                            </span>
+                            <div class="w-full h-full bg-gradient-to-br from-pink-900/40 to-black flex items-center justify-center text-4xl">🌌</div>
+                            <span class="absolute bottom-3 left-3 bg-pink-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg">Libro 2</span>
                         </div>
-                        <h3 class="text-xl font-black text-white mb-2 leading-snug">
-                            Proyecto S.P.K: Umbranova
-                        </h3>
-                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                            Las sombras se extienden sobre Ciudad Seltsamer mientras nuevos peligros, Cenrix y la transformación Umbranova entran en juego.
-                        </p>
+                        <h3 class="text-xl font-black text-white mb-2 leading-snug">Proyecto S.P.K: Umbranova</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">Las sombras sobre Ciudad Seltsamer, Cenrix y la transformación Umbranova.</p>
                     </div>
                     <a href="libro2.html" onclick="playButtonClickSound()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center space-x-2">
                         <span>Leer Novela</span>
@@ -130,96 +131,55 @@
                     </a>
                 </div>
 
-                <!-- LIBRO 3 (YA CONECTADO) -->
+                <!-- LIBRO 3 -->
                 <div class="bg-zinc-900/90 border border-fuchsia-500/30 rounded-3xl p-5 glow-card backdrop-blur-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2">
                     <div>
                         <div class="relative w-full h-72 rounded-2xl overflow-hidden mb-5 bg-black border border-fuchsia-500/20 shadow-inner">
-                            <img src="URL_PORTADA_LIBRO_3.jpg" alt="Portada Luminiscente" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
-                            <span class="absolute bottom-3 left-3 bg-fuchsia-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg backdrop-blur-md">
-                                Libro 3
-                            </span>
+                            <div class="w-full h-full bg-gradient-to-br from-fuchsia-900/40 to-black flex items-center justify-center text-4xl">✨</div>
+                            <span class="absolute bottom-3 left-3 bg-fuchsia-600/90 text-white text-xs font-bold px-3 py-1 rounded-lg">Libro 3</span>
                         </div>
-                        <h3 class="text-xl font-black text-white mb-2 leading-snug">
-                            Luminiscente
-                        </h3>
-                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">
-                            El origen de la luz, la historia detrás de Skriker (Orion) y el conflicto con Voltaje (Ion).
-                        </p>
+                        <h3 class="text-xl font-black text-white mb-2 leading-snug">Luminiscente</h3>
+                        <p class="text-slate-400 text-xs md:text-sm leading-relaxed mb-6">El gran inicio de la luz, la leyenda de Skriker y el enfrentamiento con Voltaje.</p>
                     </div>
                     <a href="libro3.html" onclick="playButtonClickSound()" class="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white text-center font-extrabold rounded-2xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center space-x-2">
                         <span>Leer Novela</span>
                         <span>📖</span>
                     </a>
                 </div>
-
             </div>
         </section>
 
-        <!-- SECCIÓN DE PERSONAJES Y LORE / EL UNIVERSO -->
-        <section id="universo" class="w-full max-w-5xl mx-auto py-16 px-4 border-t border-zinc-900 mt-12">
-            <div class="text-center mb-12">
-                <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
-                    Archivos Clasificados
-                </span>
-                <h2 class="text-3xl md:text-4xl font-black text-white mt-3 uppercase tracking-tight">
-                    Personajes & <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Elementos</span>
-                </h2>
-                <p class="text-slate-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                    Conoce a los protagonistas y los misterios clave detrás del Proyecto S.P.K.
-                </p>
-            </div>
-
-            <!-- Grid de Fichas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Spike -->
-                <div class="bg-zinc-900/80 border border-orange-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-orange-400 mb-3">Spike</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        El sujeto principal del Proyecto S.P.K. Una anomalía viviente con reflejos sobrehumanos y la capacidad de absorber y canalizar energía pura. Prefiere la libertad antes que someterse a los planes de control de Varnet.
+        <!-- SECCIÓN DE MINIJUEGOS / RITMO -->
+        <section id="minijuegos-section" class="w-full max-w-5xl mx-auto py-12 px-4 border-t border-zinc-900 mt-8">
+            <div class="bg-gradient-to-r from-zinc-900 via-black to-zinc-900 border border-orange-500/40 rounded-3xl p-8 glow-orange-magenta flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="max-w-xl">
+                    <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest inline-block mb-3">
+                        Zona Arcade DumbWeb
+                    </span>
+                    <h2 class="text-3xl font-black text-white uppercase tracking-tight mb-2">
+                        Juego de Ritmo: <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Spike Beat Festival</span>
+                    </h2>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                        Juega con la playlist oficial de la saga de Spike. Elige tu canción favorita, selecciona tu dispositivo (PC o Móvil) y acumula puntos guardados en tu cuenta.
                     </p>
                 </div>
-
-                <!-- Elias Varnet -->
-                <div class="bg-zinc-900/80 border border-pink-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-pink-400 mb-3">Elias Varnet</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Científico brillante y líder corporativo consumido por la ambición. Tras el accidente con la Andromedita, busca por todos los medios apoderarse del poder absoluto, manipulando la verdad pública a su favor.
-                    </p>
-                </div>
-
-                <!-- Skriker -->
-                <div class="bg-zinc-900/80 border border-fuchsia-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-fuchsia-400 mb-3">Skriker</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Orion Bright, el portador de la Luminsword dorada. Entrenado en una dimensión ancestral, defiende la justicia con luz y convicción frente a la corrupción.
-                    </p>
-                </div>
-
-                <!-- La Andromedita -->
-                <div class="bg-zinc-900/80 border border-orange-500/20 rounded-3xl p-8 backdrop-blur-xl">
-                    <h3 class="text-xl font-black text-orange-400 mb-3">La Andromedita</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Mineral de origen cósmico descubierto cerca del núcleo terrestre. Escribe patrones energéticos indescifrables y es la fuente original de todo el fenómeno del Proyecto S.P.K.
-                    </p>
-                </div>
+                <a href="minijuegos.html" onclick="playButtonClickSound()" class="w-full md:w-auto px-8 py-5 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 text-white font-black text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/30 transition-all transform hover:scale-105 text-center flex items-center justify-center space-x-3">
+                    <span>Entrar a Minijuegos</span>
+                    <span>🎮</span>
+                </a>
             </div>
         </section>
 
     </main>
 
-    <!-- Pie de página DumbWeb -->
+    <!-- Pie de página -->
     <footer class="border-t border-zinc-900 bg-black py-10 text-center text-xs text-slate-500 mt-16">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <p>© 2026 DumbWeb - Universos de DumbFantasy. Todos los derechos reservados.</p>
-            <div class="flex space-x-6 text-orange-400 font-mono">
-                <span>[SISTEMA: EN LÍNEA]</span>
-                <span>[ESTÉTICA: DW-ORANGE/MAGENTA]</span>
-            </div>
         </div>
     </footer>
 
-    <!-- Script de Audio Web API y Control de Pantalla de Bienvenida -->
+    <!-- Script de Gestión de Sesión y Audio -->
     <script>
         let audioCtx = null;
 
@@ -229,67 +189,71 @@
             }
         }
 
-        // Sonido sutil para clics en botones
         function playButtonClickSound() {
             initAudio();
             if (!audioCtx) return;
-
             let osc = audioCtx.createOscillator();
             let gain = audioCtx.createGain();
-
             osc.type = 'sine';
             osc.frequency.setValueAtTime(440, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08);
-
             gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             osc.start();
             osc.stop(audioCtx.currentTime + 0.08);
         }
 
-        // Transición de Inicio de Sesión / Bienvenida a la DumbWeb
-        function handleLoginSession() {
+        // Comprobar si ya existe cuenta iniciada al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('dumbweb_user');
+            if (currentUser) {
+                showWelcomeBackScreen(currentUser);
+            }
+        });
+
+        function showWelcomeBackScreen(username) {
+            document.getElementById('welcome-title').innerHTML = `¡Bienvenido a la <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">DumbWeb</span>, <span class="text-orange-400">${username}</span>!`;
+            document.getElementById('welcome-sub').innerText = "Tu sesión está activa y tu progreso se guardará automáticamente.";
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('logout-btn').classList.remove('hidden');
+            
+            // Botón rápido para entrar directamente
+            if (!document.getElementById('enter-direct-btn')) {
+                const enterBtn = document.createElement('button');
+                enterBtn.id = 'enter-direct-btn';
+                enterBtn.className = "w-full py-4 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-extrabold text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/30 transition-all";
+                enterBtn.innerText = "Continuar a la plataforma";
+                enterBtn.onclick = () => {
+                    document.getElementById('welcome-screen').style.opacity = '0';
+                    setTimeout(() => document.getElementById('welcome-screen').style.display = 'none', 700);
+                };
+                document.getElementById('logout-btn').parentNode.insertBefore(enterBtn, document.getElementById('logout-btn'));
+            }
+
+            document.getElementById('user-display-name').innerText = username;
+        }
+
+        function handleLoginSession(e) {
+            e.preventDefault();
+            const username = document.getElementById('username-input').value.trim();
+            if (!username) return;
+
+            localStorage.setItem('dumbweb_user', username);
+            document.getElementById('user-display-name').innerText = username;
+
             initAudio();
-            if (!audioCtx) return;
-
-            let now = audioCtx.currentTime;
-
-            // Sintetizador electrónico calmado y lento (Synth Riser)
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            let filter = audioCtx.createBiquadFilter();
-
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(120, now);
-            osc.frequency.exponentialRampToValueAtTime(650, now + 2.2);
-
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(250, now);
-            filter.frequency.exponentialRampToValueAtTime(2200, now + 2.2);
-
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.linearRampToValueAtTime(0.12, now + 0.6);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
-
-            osc.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start(now);
-            osc.stop(now + 2.5);
-
-            // Desvanecer y ocultar la pantalla de bienvenida
-            const welcomeScreen = document.getElementById('welcome-screen');
-            welcomeScreen.style.opacity = '0';
+            document.getElementById('welcome-screen').style.opacity = '0';
             setTimeout(() => {
-                welcomeScreen.style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'none';
             }, 700);
         }
-    </script>
 
+        function logoutUser() {
+            localStorage.removeItem('dumbweb_user');
+            location.reload();
+        }
+    </script>
 </body>
 </html>
