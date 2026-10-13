@@ -12,10 +12,10 @@
         .glow-card:hover {
             box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);
         }
-        .glow-target-0 { box-shadow: 0 0 15px rgba(249, 115, 22, 0.8); }
-        .glow-target-1 { box-shadow: 0 0 15px rgba(236, 72, 153, 0.8); }
-        .glow-target-2 { box-shadow: 0 0 15px rgba(217, 70, 239, 0.8); }
-        .glow-target-3 { box-shadow: 0 0 15px rgba(245, 158, 11, 0.8); }
+        .glow-target-0 { box-shadow: 0 0 18px rgba(249, 115, 22, 0.9); }
+        .glow-target-1 { box-shadow: 0 0 18px rgba(236, 72, 153, 0.9); }
+        .glow-target-2 { box-shadow: 0 0 18px rgba(217, 70, 239, 0.9); }
+        .glow-target-3 { box-shadow: 0 0 18px rgba(245, 158, 11, 0.9); }
     </style>
 </head>
 <body class="bg-black text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-500 selection:text-white overflow-x-hidden">
@@ -60,7 +60,7 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
         
-        <div class="text-center mb-8">
+        <div id="catalog-section" class="text-center mb-8">
             <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
                 Spike Beat Festival • Las 34 Canciones de la Saga
             </span>
@@ -68,24 +68,24 @@
                 DumbWeb <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Arcade</span>
             </h1>
             <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">
-                Selecciona cualquiera de las canciones oficiales de la playlist para desplegar su reproductor y desafiar tus reflejos con alta precisión.
+                Selecciona cualquiera de las canciones oficiales para desplegar su reproductor y desafiar tus reflejos.
             </p>
             
             <!-- BUSCADOR -->
             <div class="mt-6 max-w-md mx-auto">
                 <input type="text" id="song-search" placeholder="🔍 Buscar canción o artista..." oninput="filterSongs()" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500 transition-all">
             </div>
+
+            <!-- LISTA DE LAS 34 CANCIONES OFICIALES -->
+            <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[550px] overflow-y-auto pr-2 mt-6">
+                <!-- Se llena con JavaScript -->
+            </div>
         </div>
 
-        <!-- LISTA DE LAS 34 CANCIONES OFICIALES -->
-        <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[550px] overflow-y-auto pr-2">
-            <!-- Se llenará dinámicamente mediante JavaScript -->
-        </div>
-
-        <!-- ÁREA DEL JUEGO DE RITMO (OCULTA HASTA SELECCIONAR CANCIÓN) -->
+        <!-- ÁREA DEL JUEGO DE RITMO (OCULTA EN EL INICIO) -->
         <div id="game-arena" class="hidden bg-zinc-950 border border-orange-500/60 rounded-3xl p-6 glow-orange-magenta relative overflow-hidden max-w-2xl mx-auto">
             
-            <!-- INFORMACIÓN Y WIDGET DE SPOTIFY -->
+            <!-- CABECERA Y DATOS DE CANCIÓN -->
             <div class="flex flex-col md:flex-row items-center justify-between mb-4 border-b border-zinc-800 pb-4 gap-4">
                 <div>
                     <span id="current-song-number" class="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-md font-bold">#1</span>
@@ -95,99 +95,96 @@
                 <div class="flex items-center space-x-4 text-xs font-mono bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800">
                     <div>Puntos: <span id="score-val" class="text-emerald-400 font-bold">0</span></div>
                     <div>Combo: <span id="combo-val" class="text-pink-400 font-bold">0x</span></div>
-                    <div>Tiempo: <span id="timer-val" class="text-amber-400 font-bold">03:38</span></div>
+                    <div>Tiempo: <span id="timer-val" class="text-amber-400 font-bold">00:00</span></div>
                     <button onclick="exitGame()" class="px-2.5 py-1 bg-red-600/30 border border-red-500 text-red-400 rounded-lg hover:bg-red-600 hover:text-white transition-colors">Salir</button>
                 </div>
             </div>
 
-            <!-- WIDGET DE SPOTIFY DINÁMICO (Aparece únicamente al entrar a la canción) -->
+            <!-- WIDGET DE SPOTIFY DENTRO DE LA CANCIÓN -->
             <div id="spotify-container" class="mb-6 bg-zinc-900 border border-zinc-800 rounded-2xl p-3">
                 <div class="text-[11px] font-bold text-orange-400 mb-1 flex items-center justify-between">
-                    <span>🎧 Reproductor de Spotify (Reproduce aquí la música)</span>
-                    <span class="text-slate-400 text-[10px]">Sincroniza con el inicio del juego</span>
+                    <span>🎧 Reproductor de Spotify</span>
+                    <span class="text-slate-400 text-[10px]">Dale Play al iniciar la cuenta regresiva</span>
                 </div>
-                <!-- El Iframe se inyectará aquí de forma dinámica -->
                 <div id="spotify-iframe-wrap"></div>
             </div>
 
-            <!-- FEEDBACK DE PRECISIÓN -->
-            <div class="absolute top-36 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none">
+            <!-- FEEDBACK DE IMPACTO -->
+            <div class="absolute top-44 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none">
                 <span id="hit-feedback" class="text-xl font-black uppercase tracking-wider opacity-0 transition-opacity duration-150"></span>
             </div>
 
-            <!-- PISTA DE NOTAS (4 CARRILES CON ALTA PRECISIÓN) -->
+            <!-- PISTA DE NOTAS DE ALTA PRECISIÓN -->
             <div id="track-container" class="relative h-[380px] bg-black/95 border border-zinc-800 max-w-sm mx-auto flex justify-around overflow-hidden rounded-2xl shadow-inner">
                 
-                <!-- Línea guía de impacto -->
-                <div class="absolute bottom-16 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-amber-500 opacity-40"></div>
+                <div class="absolute bottom-16 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-amber-500 opacity-50"></div>
 
-                <!-- Carril 1: A / 1 -->
+                <!-- Carril 1 -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-0-target" class="w-14 h-14 rounded-2xl border-2 border-orange-500 bg-orange-500/20 glow-target-0 flex items-center justify-center text-sm font-black text-orange-300 transition-transform active:scale-95">A / 1</div>
+                    <div id="lane-0-target" class="w-14 h-14 rounded-2xl border-2 border-orange-500 bg-orange-500/30 glow-target-0 flex items-center justify-center text-sm font-black text-orange-300">A / 1</div>
                 </div>
-                <!-- Carril 2: S / 2 -->
+                <!-- Carril 2 -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-1-target" class="w-14 h-14 rounded-2xl border-2 border-pink-500 bg-pink-500/20 glow-target-1 flex items-center justify-center text-sm font-black text-pink-300 transition-transform active:scale-95">S / 2</div>
+                    <div id="lane-1-target" class="w-14 h-14 rounded-2xl border-2 border-pink-500 bg-pink-500/30 glow-target-1 flex items-center justify-center text-sm font-black text-pink-300">S / 2</div>
                 </div>
-                <!-- Carril 3: K / 3 -->
+                <!-- Carril 3 -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-2-target" class="w-14 h-14 rounded-2xl border-2 border-fuchsia-500 bg-fuchsia-500/20 glow-target-2 flex items-center justify-center text-sm font-black text-fuchsia-300 transition-transform active:scale-95">K / 3</div>
+                    <div id="lane-2-target" class="w-14 h-14 rounded-2xl border-2 border-fuchsia-500 bg-fuchsia-500/30 glow-target-2 flex items-center justify-center text-sm font-black text-fuchsia-300">K / 3</div>
                 </div>
-                <!-- Carril 4: L / 4 -->
+                <!-- Carril 4 -->
                 <div class="relative h-full flex flex-col justify-end pb-3 items-center w-1/4">
-                    <div id="lane-3-target" class="w-14 h-14 rounded-2xl border-2 border-amber-500 bg-amber-500/20 glow-target-3 flex items-center justify-center text-sm font-black text-amber-300 transition-transform active:scale-95">L / 4</div>
+                    <div id="lane-3-target" class="w-14 h-14 rounded-2xl border-2 border-amber-500 bg-amber-500/30 glow-target-3 flex items-center justify-center text-sm font-black text-amber-300">L / 4</div>
                 </div>
             </div>
 
-            <!-- CONTROLES TÁCTILES (MÓVIL) -->
+            <!-- CONTROLES TÁCTILES -->
             <div id="mobile-controls" class="hidden grid grid-cols-4 gap-2 mt-4 max-w-sm mx-auto">
-                <button ontouchstart="handleHit(0)" onclick="handleHit(0)" class="py-4 bg-orange-600/40 border border-orange-500 text-orange-200 font-extrabold rounded-xl active:bg-orange-600 active:text-white">1</button>
-                <button ontouchstart="handleHit(1)" onclick="handleHit(1)" class="py-4 bg-pink-600/40 border border-pink-500 text-pink-200 font-extrabold rounded-xl active:bg-pink-600 active:text-white">2</button>
-                <button ontouchstart="handleHit(2)" onclick="handleHit(2)" class="py-4 bg-fuchsia-600/40 border border-fuchsia-500 text-fuchsia-200 font-extrabold rounded-xl active:bg-fuchsia-600 active:text-white">3</button>
-                <button ontouchstart="handleHit(3)" onclick="handleHit(3)" class="py-4 bg-amber-600/40 border border-amber-500 text-amber-200 font-extrabold rounded-xl active:bg-amber-600 active:text-white">4</button>
+                <button ontouchstart="handleHit(0)" onclick="handleHit(0)" class="py-4 bg-orange-600/50 border border-orange-500 text-orange-200 font-extrabold rounded-xl active:bg-orange-600">1</button>
+                <button ontouchstart="handleHit(1)" onclick="handleHit(1)" class="py-4 bg-pink-600/50 border border-pink-500 text-pink-200 font-extrabold rounded-xl active:bg-pink-600">2</button>
+                <button ontouchstart="handleHit(2)" onclick="handleHit(2)" class="py-4 bg-fuchsia-600/50 border border-fuchsia-500 text-fuchsia-200 font-extrabold rounded-xl active:bg-fuchsia-600">3</button>
+                <button ontouchstart="handleHit(3)" onclick="handleHit(3)" class="py-4 bg-amber-600/50 border border-amber-500 text-amber-200 font-extrabold rounded-xl active:bg-amber-600">4</button>
             </div>
         </div>
 
     </main>
 
-    <!-- SCRIPT PRINCIPAL -->
+    <!-- SCRIPT DE CANCIONES Y MOTOR -->
     <script>
-        // BASE DE DATOS EXACTA DE LAS 34 CANCIONES DE LA SAGA (Basada en tus capturas)
         const songsDatabase = [
-            { id: 1, title: "Don't Stop Me Now - ...Revisited", artist: "Queen", duration: "3:38", seconds: 218, uri: "7hQJA50oz8ABAU0ikPdsSO", bpm: 156 },
-            { id: 2, title: "El hijo de Hernández", artist: "El Cuarteto De Nos", duration: "3:59", seconds: 239, uri: "1q7c01v7Q6WdF78JtFwz1s", bpm: 128 },
-            { id: 3, title: "Could Have Been Me", artist: "The Struts", duration: "3:08", seconds: 188, uri: "1icwkJISfMu8bN80Q68j8z", bpm: 140 },
-            { id: 4, title: "Bang Bang - New Version", artist: "K'NAAN, Adam Levine", duration: "3:03", seconds: 183, uri: "6Z0Y8h4r7zG62y56d9829f", bpm: 120 },
-            { id: 5, title: "Galvanize", artist: "The Chemical Brothers", duration: "6:34", seconds: 394, uri: "39shxpH0Z0c4sXp2Wb3b3Q", bpm: 104 },
-            { id: 6, title: "Get Lucky", artist: "Daft Punk, Pharrell Williams", duration: "6:10", seconds: 370, uri: "6i0V12jOa3mr6uu4WYhUBr", bpm: 116 },
-            { id: 7, title: "Beautiful Day", artist: "U2", duration: "4:08", seconds: 248, uri: "21jMfujEn3w4y0fA7zR1rR", bpm: 136 },
-            { id: 8, title: "this is what falling in love feels like", artist: "JVKE", duration: "2:00", seconds: 120, uri: "3h7o8qXo7z2fW5z2y5d68A", bpm: 145 },
-            { id: 9, title: "Im Sorry Mom", artist: "Marino", duration: "1:47", seconds: 107, uri: "0q2f3w9x7h2z5z8x1v4b6m", bpm: 130 },
-            { id: 10, title: "Imitadora", artist: "Romeo Santos", duration: "3:55", seconds: 235, uri: "4v0b2c1m6z5x8s9d7f3g2h", bpm: 124 },
-            { id: 11, title: "Intruso", artist: "Enjambre", duration: "3:29", seconds: 209, uri: "5h7g9f2d1s3a6w8e4r7t0y", bpm: 118 },
-            { id: 12, title: "Cambiante", artist: "Enjambre", duration: "3:10", seconds: 190, uri: "8u9y0t7r6e5w4q3a2s1d0f", bpm: 122 },
-            { id: 13, title: "Time to Pretend", artist: "MGMT", duration: "4:22", seconds: 262, uri: "4.1ztYn8y...placeholder", bpm: 134 },
-            { id: 14, title: "Hoy me voy al Sol (Live)", artist: "Bizarrap, Milo j, Agarrate Catalina", duration: "3:54", seconds: 234, uri: "6b7n8m9v0c1x2z3a4s5d6f", bpm: 98 },
-            { id: 15, title: "Cicada", artist: "Good Kid", duration: "2:47", seconds: 167, uri: "7g6h5j4k3l2z1x0c9v8b7n", bpm: 150 },
-            { id: 16, title: "Lo malo de ser bueno", artist: "El Cuarteto De Nos", duration: "4:02", seconds: 242, uri: "1a2s3d4f5g6h7j8k9l0z1x", bpm: 126 },
-            { id: 17, title: "Ride The Lightning - Remastered", artist: "Metallica", duration: "6:37", seconds: 397, uri: "2z3x4c5v6b7n8m9a0s1d2f", bpm: 170 },
-            { id: 18, title: "American Idiot", artist: "Green Day", duration: "2:56", seconds: 176, uri: "6ANZkJqfJaoP6jR5z4wX6n", bpm: 186 },
-            { id: 19, title: "Fuel", artist: "Metallica", duration: "4:30", seconds: 270, uri: "3d4f5g6h7j8k9l0z1x2c3v", bpm: 155 },
-            { id: 20, title: "No Tengo Hambre, Tengo Ansiedad", artist: "Alan Sutton", duration: "2:14", seconds: 134, uri: "4f5g6h7j8k9l0z1x2c3v4b", bpm: 142 },
-            { id: 21, title: "Sh-Boom", artist: "The Chords", duration: "2:27", seconds: 147, uri: "5g6h7j8k9l0z1x2c3v4b5n", bpm: 110 },
-            { id: 22, title: "I'm Still Standing", artist: "Taron Egerton", duration: "3:58", seconds: 238, uri: "j1k2l3z4x5c6v7b8n9m0a1", bpm: 148 },
-            { id: 23, title: "Mr. Blue Sky", artist: "Electric Light Orchestra", duration: "5:04", seconds: 304, uri: "2v1c0x9z8l7k6j5h4g3f2d", bpm: 178 },
-            { id: 24, title: "Bad - 2012 Remaster", artist: "Michael Jackson", duration: "4:07", seconds: 247, uri: "3b2v1c0x9z8l7k6j5h4g3f", bpm: 114 },
-            { id: 25, title: "Creep", artist: "Radiohead", duration: "3:59", seconds: 239, uri: "6b2Us98d7s6a5f4g3h2j1k", bpm: 92 },
-            { id: 26, title: "Holiday", artist: "Green Day", duration: "3:53", seconds: 233, uri: "4c3b2v1c0x9z8l7k6j5h4g", bpm: 145 },
-            { id: 27, title: "GOSSIP (feat. Tom Morello)", artist: "Måneskin, Tom Morello", duration: "2:48", seconds: 168, uri: "5d4c3b2v1c0x9z8l7k6j5h", bpm: 138 },
-            { id: 28, title: "Best Day Of My Life", artist: "American Authors", duration: "3:14", seconds: 194, uri: "6e5d4c3b2v1c0x9z8l7k6j", bpm: 102 },
-            { id: 29, title: "this is what space feels like", artist: "JVKE", duration: "3:03", seconds: 183, uri: "7f6e5d4c3b2v1c0x9z8l7k", bpm: 132 },
-            { id: 30, title: "Holding Out for a Hero", artist: "Bonnie Tyler", duration: "5:48", seconds: 348, uri: "8g7f6e5d4c3b2v1c0x9z8l", bpm: 150 },
-            { id: 31, title: "Dream Sweet in Sea Major", artist: "Miracle Musical", duration: "7:00", seconds: 420, uri: "9h8g7f6e5d4c3b2v1c0x9z", bpm: 120 },
-            { id: 32, title: "I Hear a Symphony", artist: "Cody Fry", duration: "3:05", seconds: 185, uri: "0i9h8g7f6e5d4c3b2v1c0x", bpm: 108 },
-            { id: 33, title: "No Quiero Ser Normal", artist: "El Cuarteto De Nos", duration: "3:39", seconds: 219, uri: "1j0i9h8g7f6e5d4c3b2v1c", bpm: 135 },
-            { id: 34, title: "My Way Of Life", artist: "Frank Sinatra", duration: "3:07", seconds: 187, uri: "2k1j0i9h8g7f6e5d4c3b2v", bpm: 100 }
+            { id: 1, title: "Don't Stop Me Now - ...Revisited", artist: "Queen", duration: "3:38", seconds: 218, bpm: 156 },
+            { id: 2, title: "El hijo de Hernández", artist: "El Cuarteto De Nos", duration: "3:59", seconds: 239, bpm: 128 },
+            { id: 3, title: "Could Have Been Me", artist: "The Struts", duration: "3:08", seconds: 188, bpm: 140 },
+            { id: 4, title: "Bang Bang - New Version", artist: "K'NAAN, Adam Levine", duration: "3:03", seconds: 183, bpm: 120 },
+            { id: 5, title: "Galvanize", artist: "The Chemical Brothers", duration: "6:34", seconds: 394, bpm: 104 },
+            { id: 6, title: "Get Lucky", artist: "Daft Punk, Pharrell Williams", duration: "6:10", seconds: 370, bpm: 116 },
+            { id: 7, title: "Beautiful Day", artist: "U2", duration: "4:08", seconds: 248, bpm: 136 },
+            { id: 8, title: "this is what falling in love feels like", artist: "JVKE", duration: "2:00", seconds: 120, bpm: 145 },
+            { id: 9, title: "Im Sorry Mom", artist: "Marino", duration: "1:47", seconds: 107, bpm: 130 },
+            { id: 10, title: "Imitadora", artist: "Romeo Santos", duration: "3:55", seconds: 235, bpm: 124 },
+            { id: 11, title: "Intruso", artist: "Enjambre", duration: "3:29", seconds: 209, bpm: 118 },
+            { id: 12, title: "Cambiante", artist: "Enjambre", duration: "3:10", seconds: 190, bpm: 122 },
+            { id: 13, title: "Time to Pretend", artist: "MGMT", duration: "4:22", seconds: 262, bpm: 134 },
+            { id: 14, title: "Hoy me voy al Sol (Live)", artist: "Bizarrap, Milo j", duration: "3:54", seconds: 234, bpm: 98 },
+            { id: 15, title: "Cicada", artist: "Good Kid", duration: "2:47", seconds: 167, bpm: 150 },
+            { id: 16, title: "Lo malo de ser bueno", artist: "El Cuarteto De Nos", duration: "4:02", seconds: 242, bpm: 126 },
+            { id: 17, title: "Ride The Lightning - Remastered", artist: "Metallica", duration: "6:37", seconds: 397, bpm: 170 },
+            { id: 18, title: "American Idiot", artist: "Green Day", duration: "2:56", seconds: 176, bpm: 186 },
+            { id: 19, title: "Fuel", artist: "Metallica", duration: "4:30", seconds: 270, bpm: 155 },
+            { id: 20, title: "No Tengo Hambre, Tengo Ansiedad", artist: "Alan Sutton", duration: "2:14", seconds: 134, bpm: 142 },
+            { id: 21, title: "Sh-Boom", artist: "The Chords", duration: "2:27", seconds: 147, bpm: 110 },
+            { id: 22, title: "I'm Still Standing", artist: "Taron Egerton", duration: "3:58", seconds: 238, bpm: 148 },
+            { id: 23, title: "Mr. Blue Sky", artist: "Electric Light Orchestra", duration: "5:04", seconds: 304, bpm: 178 },
+            { id: 24, title: "Bad - 2012 Remaster", artist: "Michael Jackson", duration: "4:07", seconds: 247, bpm: 114 },
+            { id: 25, title: "Creep", artist: "Radiohead", duration: "3:59", seconds: 239, bpm: 92 },
+            { id: 26, title: "Holiday", artist: "Green Day", duration: "3:53", seconds: 233, bpm: 145 },
+            { id: 27, title: "GOSSIP (feat. Tom Morello)", artist: "Måneskin", duration: "2:48", seconds: 168, bpm: 138 },
+            { id: 28, title: "Best Day Of My Life", artist: "American Authors", duration: "3:14", seconds: 194, bpm: 102 },
+            { id: 29, title: "this is what space feels like", artist: "JVKE", duration: "3:03", seconds: 183, bpm: 132 },
+            { id: 30, title: "Holding Out for a Hero", artist: "Bonnie Tyler", duration: "5:48", seconds: 348, bpm: 150 },
+            { id: 31, title: "Dream Sweet in Sea Major", artist: "Miracle Musical", duration: "7:00", seconds: 420, bpm: 120 },
+            { id: 32, title: "I Hear a Symphony", artist: "Cody Fry", duration: "3:05", seconds: 185, bpm: 108 },
+            { id: 33, title: "No Quiero Ser Normal", artist: "El Cuarteto De Nos", duration: "3:39", seconds: 219, bpm: 135 },
+            { id: 34, title: "My Way Of Life", artist: "Frank Sinatra", duration: "3:07", seconds: 187, bpm: 100 }
         ];
 
         let selectedDevice = 'pc';
@@ -250,16 +247,16 @@
         }
 
         function selectSong(song) {
-            document.getElementById('song-list').parentElement.classList.add('hidden');
+            document.getElementById('catalog-section').classList.add('hidden');
             document.getElementById('game-arena').classList.remove('hidden');
             
             document.getElementById('current-song-number').innerText = `#${song.id}`;
             document.getElementById('current-song-title').innerText = song.title;
             document.getElementById('current-song-artist').innerText = song.artist;
             
-            // Inyectar el reproductor de Spotify correspondiente a la canción
+            // Cargar iframe de la playlist general de Spotify
             let spotifyWrap = document.getElementById('spotify-iframe-wrap');
-            spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${song.uri}?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+            spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
 
             currentScore = 0;
             currentCombo = 0;
@@ -293,8 +290,6 @@
 
         function startGameEngine(bpm) {
             const track = document.getElementById('track-container');
-            
-            // Intervalo de aparición de notas basado en el BPM de cada canción
             let spawnIntervalTime = Math.max(350, Math.floor(60000 / bpm));
 
             gameInterval = setInterval(() => {
@@ -323,14 +318,13 @@
                             updateHUD();
                         }
                     } else {
-                        top += 5; // Velocidad de caída fluida
+                        top += 5;
                         note.style.top = top + 'px';
                     }
                 }, 20);
 
             }, spawnIntervalTime);
 
-            // Temporizador de duración exacta de la canción
             timerInterval = setInterval(() => {
                 timeRemaining--;
                 let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
@@ -338,7 +332,7 @@
                 document.getElementById('timer-val').innerText = `${mins}:${secs}`;
 
                 if (timeRemaining <= 0) {
-                    endGame("¡Canción Finalizada! Gran Récord.");
+                    endGame("¡Canción Finalizada!");
                 }
             }, 1000);
         }
@@ -347,7 +341,7 @@
             clearInterval(gameInterval);
             clearInterval(timerInterval);
             document.getElementById('game-arena').classList.add('hidden');
-            document.getElementById('song-list').parentElement.classList.remove('hidden');
+            document.getElementById('catalog-section').classList.remove('hidden');
             document.querySelectorAll('.game-note').forEach(n => n.remove());
             activeNotes = [];
         }
@@ -380,7 +374,6 @@
             }, 250);
         }
 
-        // Control de teclado para PC (A, S, K, L o 1, 2, 3, 4)
         window.addEventListener('keydown', (e) => {
             if (selectedDevice !== 'pc') return;
             let key = e.key.toLowerCase();
@@ -390,9 +383,7 @@
             if (key === 'l' || key === '4') handleHit(3);
         });
 
-        // Detector de impactos de alta precisión
         function handleHit(lane) {
-            // Zona de impacto estricta (entre 270px y 330px de caída)
             let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 270 && parseInt(n.element.style.top) <= 330);
             
             if (hitIndex !== -1) {
@@ -401,7 +392,6 @@
                 noteObj.element.remove();
                 activeNotes.splice(hitIndex, 1);
                 
-                // Precisión milimétrica (Centro exacto en 300px)
                 let precision = Math.abs(noteTop - 300);
                 if (precision <= 10) {
                     currentScore += 300 * (currentCombo + 1);
@@ -417,7 +407,6 @@
                 currentCombo++;
                 updateHUD();
             } else {
-                // Fallo por presionar antes de tiempo o en carril equivocado
                 currentCombo = 0;
                 updateHUD();
             }
