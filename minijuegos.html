@@ -101,11 +101,11 @@
                 </div>
             </div>
 
-            <!-- WIDGET DE SPOTIFY -->
+            <!-- WIDGET DE SPOTIFY (CON TU PLAYLIST REAL) -->
             <div id="spotify-container" class="mb-4 bg-zinc-900 border border-zinc-800 rounded-2xl p-3">
                 <div class="text-[11px] font-bold text-orange-400 mb-1 flex items-center justify-between">
-                    <span>🎧 Reproductor de Spotify</span>
-                    <span class="text-slate-400 text-[10px]">Pones Play en Spotify y presionas "¡EMPEZAR JUEGO!"</span>
+                    <span>🎧 Reproductor Oficial Spotify (The Dumb Fantasy)</span>
+                    <span class="text-slate-400 text-[10px]">Selecciona la canción, dale Play y presiona "¡EMPEZAR JUEGO!"</span>
                 </div>
                 <div id="spotify-iframe-wrap"></div>
             </div>
@@ -156,7 +156,7 @@
 
     </main>
 
-    <!-- SCRIPT PRINCIPAL CON LAS 35 CANCIONES ACTUALIZADAS -->
+    <!-- SCRIPT PRINCIPAL -->
     <script>
         const songsDatabase = [
             { id: 1, title: "Don't Stop Me Now - ...Revisited", artist: "Queen", duration: "3:38", seconds: 218, bpm: 156 },
@@ -266,9 +266,9 @@
             document.getElementById('current-song-artist').innerText = song.artist;
             document.getElementById('timer-val').innerText = song.duration;
             
-            // Cargar iframe oficial de la playlist
+            // IFRAME INTEGRADO CON TU PLAYLIST REAL DE SPOTIFY: 37Zp5rCAoDPujBUN18lJ7n
             let spotifyWrap = document.getElementById('spotify-iframe-wrap');
-            spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+            spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37Zp5rCAoDPujBUN18lJ7n?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
 
             document.getElementById('start-control-box').classList.remove('hidden');
             
