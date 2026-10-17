@@ -16,6 +16,12 @@
         .glow-target-1 { box-shadow: 0 0 18px rgba(236, 72, 153, 0.9); }
         .glow-target-2 { box-shadow: 0 0 18px rgba(217, 70, 239, 0.9); }
         .glow-target-3 { box-shadow: 0 0 18px rgba(245, 158, 11, 0.9); }
+
+        /* Clase activada al presionar la tecla o botón */
+        .lane-pressed {
+            transform: scale(0.92) !important;
+            filter: brightness(1.8) !important;
+        }
     </style>
 </head>
 <body class="bg-black text-slate-200 min-h-screen flex flex-col font-sans antialiased selection:bg-orange-500 selection:text-white overflow-x-hidden">
@@ -101,11 +107,13 @@
                 </div>
             </div>
 
-            <!-- WIDGET DE SPOTIFY (CON TU PLAYLIST REAL) -->
+            <!-- WIDGET DE SPOTIFY Y OPCIÓN COMPLETA -->
             <div id="spotify-container" class="mb-4 bg-zinc-900 border border-zinc-800 rounded-2xl p-3">
-                <div class="text-[11px] font-bold text-orange-400 mb-1 flex items-center justify-between">
-                    <span>🎧 Reproductor Oficial Spotify (The Dumb Fantasy)</span>
-                    <span class="text-slate-400 text-[10px]">Selecciona la canción, dale Play y presiona "¡EMPEZAR JUEGO!"</span>
+                <div class="text-[11px] font-bold text-orange-400 mb-2 flex items-center justify-between">
+                    <span>🎧 Reproductor de Spotify</span>
+                    <a id="external-spotify-link" href="https://open.spotify.com/playlist/37Zp5rCAoDPujBUN18lJ7n" target="_blank" class="text-emerald-400 hover:underline text-[11px] font-bold">
+                        🟢 Abrir Completa en Spotify ↗
+                    </a>
                 </div>
                 <div id="spotify-iframe-wrap"></div>
             </div>
@@ -127,30 +135,30 @@
                 
                 <div class="absolute bottom-16 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-amber-500 opacity-50"></div>
 
-                <!-- Carril 1 -->
+                <!-- Carril 0 (A / 1) -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-0-target" class="w-14 h-14 rounded-2xl border-2 border-orange-500 bg-orange-500/30 glow-target-0 flex items-center justify-center text-sm font-black text-orange-300">A / 1</div>
+                    <div id="lane-0-target" class="w-14 h-14 rounded-2xl border-2 border-orange-500 bg-orange-500/30 glow-target-0 flex items-center justify-center text-sm font-black text-orange-300 transition-all">A / 1</div>
                 </div>
-                <!-- Carril 2 -->
+                <!-- Carril 1 (S / 2) -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-1-target" class="w-14 h-14 rounded-2xl border-2 border-pink-500 bg-pink-500/30 glow-target-1 flex items-center justify-center text-sm font-black text-pink-300">S / 2</div>
+                    <div id="lane-1-target" class="w-14 h-14 rounded-2xl border-2 border-pink-500 bg-pink-500/30 glow-target-1 flex items-center justify-center text-sm font-black text-pink-300 transition-all">S / 2</div>
                 </div>
-                <!-- Carril 3 -->
+                <!-- Carril 2 (K / 3) -->
                 <div class="w-1/4 border-r border-zinc-900/80 relative h-full flex flex-col justify-end pb-3 items-center">
-                    <div id="lane-2-target" class="w-14 h-14 rounded-2xl border-2 border-fuchsia-500 bg-fuchsia-500/30 glow-target-2 flex items-center justify-center text-sm font-black text-fuchsia-300">K / 3</div>
+                    <div id="lane-2-target" class="w-14 h-14 rounded-2xl border-2 border-fuchsia-500 bg-fuchsia-500/30 glow-target-2 flex items-center justify-center text-sm font-black text-fuchsia-300 transition-all">K / 3</div>
                 </div>
-                <!-- Carril 4 -->
+                <!-- Carril 3 (L / 4) -->
                 <div class="relative h-full flex flex-col justify-end pb-3 items-center w-1/4">
-                    <div id="lane-3-target" class="w-14 h-14 rounded-2xl border-2 border-amber-500 bg-amber-500/30 glow-target-3 flex items-center justify-center text-sm font-black text-amber-300">L / 4</div>
+                    <div id="lane-3-target" class="w-14 h-14 rounded-2xl border-2 border-amber-500 bg-amber-500/30 glow-target-3 flex items-center justify-center text-sm font-black text-amber-300 transition-all">L / 4</div>
                 </div>
             </div>
 
-            <!-- CONTROLES TÁCTILES -->
+            <!-- CONTROLES TÁCTILES (MÓVIL) -->
             <div id="mobile-controls" class="hidden grid grid-cols-4 gap-2 mt-4 max-w-sm mx-auto">
-                <button ontouchstart="handleHit(0)" onclick="handleHit(0)" class="py-4 bg-orange-600/50 border border-orange-500 text-orange-200 font-extrabold rounded-xl active:bg-orange-600">1</button>
-                <button ontouchstart="handleHit(1)" onclick="handleHit(1)" class="py-4 bg-pink-600/50 border border-pink-500 text-pink-200 font-extrabold rounded-xl active:bg-pink-600">2</button>
-                <button ontouchstart="handleHit(2)" onclick="handleHit(2)" class="py-4 bg-fuchsia-600/50 border border-fuchsia-500 text-fuchsia-200 font-extrabold rounded-xl active:bg-fuchsia-600">3</button>
-                <button ontouchstart="handleHit(3)" onclick="handleHit(3)" class="py-4 bg-amber-600/50 border border-amber-500 text-amber-200 font-extrabold rounded-xl active:bg-amber-600">4</button>
+                <button onpointerdown="handleHit(0)" class="py-4 bg-orange-600/50 border border-orange-500 text-orange-200 font-extrabold rounded-xl active:bg-orange-600">1</button>
+                <button onpointerdown="handleHit(1)" class="py-4 bg-pink-600/50 border border-pink-500 text-pink-200 font-extrabold rounded-xl active:bg-pink-600">2</button>
+                <button onpointerdown="handleHit(2)" class="py-4 bg-fuchsia-600/50 border border-fuchsia-500 text-fuchsia-200 font-extrabold rounded-xl active:bg-fuchsia-600">3</button>
+                <button onpointerdown="handleHit(3)" class="py-4 bg-amber-600/50 border border-amber-500 text-amber-200 font-extrabold rounded-xl active:bg-amber-600">4</button>
             </div>
         </div>
 
@@ -266,7 +274,6 @@
             document.getElementById('current-song-artist').innerText = song.artist;
             document.getElementById('timer-val').innerText = song.duration;
             
-            // IFRAME INTEGRADO CON TU PLAYLIST REAL DE SPOTIFY: 37Zp5rCAoDPujBUN18lJ7n
             let spotifyWrap = document.getElementById('spotify-iframe-wrap');
             spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37Zp5rCAoDPujBUN18lJ7n?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
 
@@ -388,17 +395,32 @@
             }, 250);
         }
 
+        // EVENTOS DE TECLADO Y EFECTO VISUAL INSTANTÁNEO
         window.addEventListener('keydown', (e) => {
             if (selectedDevice !== 'pc') return;
             let key = e.key.toLowerCase();
-            if (key === 'a' || key === '1') handleHit(0);
-            if (key === 's' || key === '2') handleHit(1);
-            if (key === 'k' || key === '3') handleHit(2);
-            if (key === 'l' || key === '4') handleHit(3);
+            let lane = -1;
+            if (key === 'a' || key === '1') lane = 0;
+            if (key === 's' || key === '2') lane = 1;
+            if (key === 'k' || key === '3') lane = 2;
+            if (key === 'l' || key === '4') lane = 3;
+
+            if (lane !== -1) {
+                handleHit(lane);
+            }
         });
 
+        // MANEJADOR DE IMPACTOS CON FEEDBACK VISUAL MEJORADO
         function handleHit(lane) {
-            let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 270 && parseInt(n.element.style.top) <= 330);
+            // Efecto de presionado en el carril correspondiente
+            let targetElem = document.getElementById(`lane-${lane}-target`);
+            if (targetElem) {
+                targetElem.classList.add('lane-pressed');
+                setTimeout(() => targetElem.classList.remove('lane-pressed'), 120);
+            }
+
+            // Detección de colisión con las notas
+            let hitIndex = activeNotes.findIndex(n => n.lane === lane && parseInt(n.element.style.top) >= 250 && parseInt(n.element.style.top) <= 340);
             
             if (hitIndex !== -1) {
                 let noteObj = activeNotes[hitIndex];
@@ -407,10 +429,10 @@
                 activeNotes.splice(hitIndex, 1);
                 
                 let precision = Math.abs(noteTop - 300);
-                if (precision <= 10) {
+                if (precision <= 15) {
                     currentScore += 300 * (currentCombo + 1);
                     triggerFeedback("¡PERFECTO!", "text-emerald-400");
-                } else if (precision <= 25) {
+                } else if (precision <= 30) {
                     currentScore += 150 * (currentCombo + 1);
                     triggerFeedback("¡BIEN!", "text-cyan-400");
                 } else {
