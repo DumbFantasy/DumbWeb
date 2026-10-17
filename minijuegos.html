@@ -60,15 +60,16 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
         
+        <!-- SECCIÓN CATÁLOGO -->
         <div id="catalog-section" class="text-center mb-8">
             <span class="px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold rounded-full uppercase tracking-widest">
-                Spike Beat Festival • Las 34 Canciones de la Saga
+                Spike Beat Festival • Playlist Oficial (35 Canciones)
             </span>
             <h1 class="text-3xl md:text-5xl font-black text-white mt-3 uppercase tracking-tight">
                 DumbWeb <span class="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Arcade</span>
             </h1>
             <p class="text-slate-400 text-sm mt-2 max-w-xl mx-auto">
-                Selecciona cualquiera de las canciones oficiales para desplegar su reproductor y desafiar tus reflejos.
+                Selecciona cualquiera de las 35 canciones oficiales para desplegar su reproductor y desafiar tus reflejos.
             </p>
             
             <!-- BUSCADOR -->
@@ -76,13 +77,13 @@
                 <input type="text" id="song-search" placeholder="🔍 Buscar canción o artista..." oninput="filterSongs()" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500 transition-all">
             </div>
 
-            <!-- LISTA DE LAS 34 CANCIONES OFICIALES -->
+            <!-- LISTA DE LAS 35 CANCIONES -->
             <div id="song-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[550px] overflow-y-auto pr-2 mt-6">
-                <!-- Se llena con JavaScript -->
+                <!-- Se llena dinámicamente -->
             </div>
         </div>
 
-        <!-- ÁREA DEL JUEGO DE RITMO (OCULTA EN EL INICIO) -->
+        <!-- ÁREA DEL JUEGO DE RITMO -->
         <div id="game-arena" class="hidden bg-zinc-950 border border-orange-500/60 rounded-3xl p-6 glow-orange-magenta relative overflow-hidden max-w-2xl mx-auto">
             
             <!-- CABECERA Y DATOS DE CANCIÓN -->
@@ -100,18 +101,25 @@
                 </div>
             </div>
 
-            <!-- WIDGET DE SPOTIFY DENTRO DE LA CANCIÓN -->
-            <div id="spotify-container" class="mb-6 bg-zinc-900 border border-zinc-800 rounded-2xl p-3">
+            <!-- WIDGET DE SPOTIFY -->
+            <div id="spotify-container" class="mb-4 bg-zinc-900 border border-zinc-800 rounded-2xl p-3">
                 <div class="text-[11px] font-bold text-orange-400 mb-1 flex items-center justify-between">
                     <span>🎧 Reproductor de Spotify</span>
-                    <span class="text-slate-400 text-[10px]">Dale Play al iniciar la cuenta regresiva</span>
+                    <span class="text-slate-400 text-[10px]">Pones Play en Spotify y presionas "¡EMPEZAR JUEGO!"</span>
                 </div>
                 <div id="spotify-iframe-wrap"></div>
             </div>
 
+            <!-- CONTROLES DE INICIO Y CUENTA REGRESIVA DE 5 SEGUNDOS -->
+            <div id="start-control-box" class="mb-6 text-center">
+                <button id="btn-start-game" onclick="triggerStartCountdown()" class="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold text-sm rounded-2xl shadow-lg hover:scale-105 transition-all uppercase tracking-wider">
+                    ▶ ¡EMPEZAR JUEGO!
+                </button>
+            </div>
+
             <!-- FEEDBACK DE IMPACTO -->
-            <div class="absolute top-44 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none">
-                <span id="hit-feedback" class="text-xl font-black uppercase tracking-wider opacity-0 transition-opacity duration-150"></span>
+            <div class="absolute top-48 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none">
+                <span id="hit-feedback" class="text-2xl font-black uppercase tracking-wider opacity-0 transition-opacity duration-150"></span>
             </div>
 
             <!-- PISTA DE NOTAS DE ALTA PRECISIÓN -->
@@ -148,43 +156,44 @@
 
     </main>
 
-    <!-- SCRIPT DE CANCIONES Y MOTOR -->
+    <!-- SCRIPT PRINCIPAL CON LAS 35 CANCIONES ACTUALIZADAS -->
     <script>
         const songsDatabase = [
             { id: 1, title: "Don't Stop Me Now - ...Revisited", artist: "Queen", duration: "3:38", seconds: 218, bpm: 156 },
             { id: 2, title: "El hijo de Hernández", artist: "El Cuarteto De Nos", duration: "3:59", seconds: 239, bpm: 128 },
             { id: 3, title: "Could Have Been Me", artist: "The Struts", duration: "3:08", seconds: 188, bpm: 140 },
             { id: 4, title: "Bang Bang - New Version", artist: "K'NAAN, Adam Levine", duration: "3:03", seconds: 183, bpm: 120 },
-            { id: 5, title: "Galvanize", artist: "The Chemical Brothers", duration: "6:34", seconds: 394, bpm: 104 },
-            { id: 6, title: "Get Lucky", artist: "Daft Punk, Pharrell Williams", duration: "6:10", seconds: 370, bpm: 116 },
+            { id: 5, title: "Galvanize", artist: "The Chemical Brothers, Q-Tip", duration: "6:34", seconds: 394, bpm: 104 },
+            { id: 6, title: "Get Lucky (feat. Pharrell Williams and Nile Rodgers)", artist: "Daft Punk, Pharrell Williams, Nile Rodgers", duration: "6:10", seconds: 370, bpm: 116 },
             { id: 7, title: "Beautiful Day", artist: "U2", duration: "4:08", seconds: 248, bpm: 136 },
             { id: 8, title: "this is what falling in love feels like", artist: "JVKE", duration: "2:00", seconds: 120, bpm: 145 },
-            { id: 9, title: "Im Sorry Mom", artist: "Marino", duration: "1:47", seconds: 107, bpm: 130 },
-            { id: 10, title: "Imitadora", artist: "Romeo Santos", duration: "3:55", seconds: 235, bpm: 124 },
-            { id: 11, title: "Intruso", artist: "Enjambre", duration: "3:29", seconds: 209, bpm: 118 },
-            { id: 12, title: "Cambiante", artist: "Enjambre", duration: "3:10", seconds: 190, bpm: 122 },
-            { id: 13, title: "Time to Pretend", artist: "MGMT", duration: "4:22", seconds: 262, bpm: 134 },
-            { id: 14, title: "Hoy me voy al Sol (Live)", artist: "Bizarrap, Milo j", duration: "3:54", seconds: 234, bpm: 98 },
-            { id: 15, title: "Cicada", artist: "Good Kid", duration: "2:47", seconds: 167, bpm: 150 },
-            { id: 16, title: "Lo malo de ser bueno", artist: "El Cuarteto De Nos", duration: "4:02", seconds: 242, bpm: 126 },
-            { id: 17, title: "Ride The Lightning - Remastered", artist: "Metallica", duration: "6:37", seconds: 397, bpm: 170 },
-            { id: 18, title: "American Idiot", artist: "Green Day", duration: "2:56", seconds: 176, bpm: 186 },
-            { id: 19, title: "Fuel", artist: "Metallica", duration: "4:30", seconds: 270, bpm: 155 },
-            { id: 20, title: "No Tengo Hambre, Tengo Ansiedad", artist: "Alan Sutton", duration: "2:14", seconds: 134, bpm: 142 },
-            { id: 21, title: "Sh-Boom", artist: "The Chords", duration: "2:27", seconds: 147, bpm: 110 },
-            { id: 22, title: "I'm Still Standing", artist: "Taron Egerton", duration: "3:58", seconds: 238, bpm: 148 },
-            { id: 23, title: "Mr. Blue Sky", artist: "Electric Light Orchestra", duration: "5:04", seconds: 304, bpm: 178 },
-            { id: 24, title: "Bad - 2012 Remaster", artist: "Michael Jackson", duration: "4:07", seconds: 247, bpm: 114 },
-            { id: 25, title: "Creep", artist: "Radiohead", duration: "3:59", seconds: 239, bpm: 92 },
-            { id: 26, title: "Holiday", artist: "Green Day", duration: "3:53", seconds: 233, bpm: 145 },
-            { id: 27, title: "GOSSIP (feat. Tom Morello)", artist: "Måneskin", duration: "2:48", seconds: 168, bpm: 138 },
-            { id: 28, title: "Best Day Of My Life", artist: "American Authors", duration: "3:14", seconds: 194, bpm: 102 },
-            { id: 29, title: "this is what space feels like", artist: "JVKE", duration: "3:03", seconds: 183, bpm: 132 },
-            { id: 30, title: "Holding Out for a Hero", artist: "Bonnie Tyler", duration: "5:48", seconds: 348, bpm: 150 },
-            { id: 31, title: "Dream Sweet in Sea Major", artist: "Miracle Musical", duration: "7:00", seconds: 420, bpm: 120 },
-            { id: 32, title: "I Hear a Symphony", artist: "Cody Fry", duration: "3:05", seconds: 185, bpm: 108 },
-            { id: 33, title: "No Quiero Ser Normal", artist: "El Cuarteto De Nos", duration: "3:39", seconds: 219, bpm: 135 },
-            { id: 34, title: "My Way Of Life", artist: "Frank Sinatra", duration: "3:07", seconds: 187, bpm: 100 }
+            { id: 9, title: "Invisible", artist: "El Cuarteto De Nos", duration: "3:36", seconds: 216, bpm: 125 },
+            { id: 10, title: "Im Sorry Mom", artist: "Marino", duration: "1:47", seconds: 107, bpm: 130 },
+            { id: 11, title: "Imitadora", artist: "Romeo Santos", duration: "3:55", seconds: 235, bpm: 124 },
+            { id: 12, title: "Intruso", artist: "Enjambre", duration: "3:29", seconds: 209, bpm: 118 },
+            { id: 13, title: "Cambiante", artist: "Enjambre", duration: "3:10", seconds: 190, bpm: 122 },
+            { id: 14, title: "Seventh Heaven", artist: "INOHA", duration: "3:54", seconds: 234, bpm: 130 },
+            { id: 15, title: "Hoy me voy al Sol (Live)", artist: "Bizarrap, Milo j, Agarrate Catalina", duration: "3:54", seconds: 234, bpm: 98 },
+            { id: 16, title: "Cicada", artist: "Good Kid", duration: "2:47", seconds: 167, bpm: 150 },
+            { id: 17, title: "Lo malo de ser bueno", artist: "El Cuarteto De Nos", duration: "4:02", seconds: 242, bpm: 126 },
+            { id: 18, title: "Ride The Lightning - Remastered", artist: "Metallica", duration: "6:37", seconds: 397, bpm: 170 },
+            { id: 19, title: "American Idiot", artist: "Green Day", duration: "2:56", seconds: 176, bpm: 186 },
+            { id: 20, title: "Fuel", artist: "Metallica", duration: "4:30", seconds: 270, bpm: 155 },
+            { id: 21, title: "No Tengo Hambre, Tengo Ansiedad", artist: "Alan Sutton y las criaturitas de la ansiedad", duration: "2:14", seconds: 134, bpm: 142 },
+            { id: 22, title: "Sh-Boom", artist: "The Chords", duration: "2:27", seconds: 147, bpm: 110 },
+            { id: 23, title: "I'm Still Standing", artist: "Taron Egerton", duration: "3:58", seconds: 238, bpm: 148 },
+            { id: 24, title: "Mr. Blue Sky", artist: "Electric Light Orchestra", duration: "5:04", seconds: 304, bpm: 178 },
+            { id: 25, title: "Bad - 2012 Remaster", artist: "Michael Jackson", duration: "4:07", seconds: 247, bpm: 114 },
+            { id: 26, title: "Creep", artist: "Radiohead", duration: "3:59", seconds: 239, bpm: 92 },
+            { id: 27, title: "Holiday", artist: "Green Day", duration: "3:53", seconds: 233, bpm: 145 },
+            { id: 28, title: "GOSSIP (feat. Tom Morello)", artist: "Måneskin, Tom Morello", duration: "2:48", seconds: 168, bpm: 138 },
+            { id: 29, title: "Best Day Of My Life", artist: "American Authors", duration: "3:14", seconds: 194, bpm: 102 },
+            { id: 30, title: "this is what space feels like", artist: "JVKE", duration: "3:03", seconds: 183, bpm: 132 },
+            { id: 31, title: "Holding Out for a Hero", artist: "Bonnie Tyler", duration: "5:48", seconds: 348, bpm: 150 },
+            { id: 32, title: "Dream Sweet in Sea Major", artist: "Miracle Musical", duration: "7:00", seconds: 420, bpm: 120 },
+            { id: 33, title: "My Way Of Life", artist: "Frank Sinatra", duration: "3:07", seconds: 187, bpm: 100 },
+            { id: 34, title: "I Hear a Symphony", artist: "Cody Fry", duration: "3:05", seconds: 185, bpm: 108 },
+            { id: 35, title: "No Quiero Ser Normal", artist: "El Cuarteto De Nos", duration: "3:39", seconds: 219, bpm: 135 }
         ];
 
         let selectedDevice = 'pc';
@@ -194,6 +203,7 @@
         let timerInterval = null;
         let activeNotes = [];
         let timeRemaining = 0;
+        let currentSelectedSong = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             const user = localStorage.getItem('dumbweb_user');
@@ -231,10 +241,10 @@
                         <div class="w-10 h-10 rounded-xl bg-orange-500/15 border border-orange-500/40 flex items-center justify-center text-orange-400 font-extrabold text-xs">#${song.id}</div>
                         <div>
                             <h3 class="font-extrabold text-white text-sm line-clamp-1">${song.title}</h3>
-                            <p class="text-xs text-slate-400">${song.artist} • <span class="text-orange-400 font-mono">${song.duration}</span></p>
+                            <p class="text-xs text-slate-400 line-clamp-1">${song.artist} • <span class="text-orange-400 font-mono">${song.duration}</span></p>
                         </div>
                     </div>
-                    <span class="px-3 py-1.5 bg-gradient-to-r from-orange-500/20 to-pink-500/20 text-orange-300 border border-orange-500/30 font-bold text-xs rounded-xl">Jugar 🎸</span>
+                    <span class="px-3 py-1.5 bg-gradient-to-r from-orange-500/20 to-pink-500/20 text-orange-300 border border-orange-500/30 font-bold text-xs rounded-xl flex-shrink-0">Jugar 🎸</span>
                 `;
                 container.appendChild(card);
             });
@@ -247,31 +257,35 @@
         }
 
         function selectSong(song) {
+            currentSelectedSong = song;
             document.getElementById('catalog-section').classList.add('hidden');
             document.getElementById('game-arena').classList.remove('hidden');
             
             document.getElementById('current-song-number').innerText = `#${song.id}`;
             document.getElementById('current-song-title').innerText = song.title;
             document.getElementById('current-song-artist').innerText = song.artist;
+            document.getElementById('timer-val').innerText = song.duration;
             
-            // Cargar iframe de la playlist general de Spotify
+            // Cargar iframe oficial de la playlist
             let spotifyWrap = document.getElementById('spotify-iframe-wrap');
             spotifyWrap.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
 
+            document.getElementById('start-control-box').classList.remove('hidden');
+            
             currentScore = 0;
             currentCombo = 0;
             timeRemaining = song.seconds;
             updateHUD();
-            
-            startCountdownAndGame(song.bpm);
         }
 
-        function startCountdownAndGame(bpm) {
-            let count = 3;
+        function triggerStartCountdown() {
+            document.getElementById('start-control-box').classList.add('hidden');
+            
+            let count = 5;
             let feedback = document.getElementById('hit-feedback');
             feedback.style.opacity = '1';
             feedback.innerText = `¡Prepárate! ${count}`;
-            feedback.className = "text-xl font-black uppercase tracking-wider text-amber-400";
+            feedback.className = "text-2xl font-black uppercase tracking-wider text-amber-400";
 
             let countInterval = setInterval(() => {
                 count--;
@@ -279,11 +293,11 @@
                     feedback.innerText = `¡Prepárate! ${count}`;
                 } else if (count === 0) {
                     feedback.innerText = "¡A JUGAR!";
-                    feedback.className = "text-2xl font-black uppercase tracking-wider text-emerald-400";
+                    feedback.className = "text-3xl font-black uppercase tracking-wider text-emerald-400";
                 } else {
                     clearInterval(countInterval);
                     feedback.style.opacity = '0';
-                    startGameEngine(bpm);
+                    startGameEngine(currentSelectedSong.bpm);
                 }
             }, 1000);
         }
@@ -367,7 +381,7 @@
         function triggerFeedback(text, colorClass) {
             let fb = document.getElementById('hit-feedback');
             fb.innerText = text;
-            fb.className = `text-xl font-black uppercase tracking-wider ${colorClass}`;
+            fb.className = `text-2xl font-black uppercase tracking-wider ${colorClass}`;
             fb.style.opacity = '1';
             setTimeout(() => {
                 fb.style.opacity = '0';
